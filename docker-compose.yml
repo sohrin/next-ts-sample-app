@@ -1,23 +1,15 @@
 version: '3'
 services:
   nginx:
-    # 2020-03-13時点のstable
-    image: nginx:1.16.1-alpine
+    build: ./docker/nginx/
     container_name: nginx
     ports:
       - "80:80"
-    volumes:
-      - "./docker/nginx/conf.d:/etc/nginx/conf.d"
-    links:
-      - express
-
   express:
-    # 2020-03-13時点のローカルのnodeと同一のバージョン
-    image: node:12.16.1-alpine
+    build:
+      context: ./
+      dockerfile: ./docker/express/Dockerfile
     container_name: express
-    hostname: express
-    volumes:
-      - ".:/src"
     working_dir: /src
     command: [sh, -c, npm install && npm run build && npm run start]
     ports:
