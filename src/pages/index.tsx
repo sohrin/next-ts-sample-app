@@ -60,6 +60,7 @@ export default class Home extends React.Component<HomeProps, {}> {
         return (
           <ul>
             <h1>Hello world!!!</h1>
+            <p><a href="/static.html">staticフォルダのhtmlへ遷移</a></p>
             {this.props.posts.map((post) => <li key={post.key}>{post.title}</li>)}
           </ul>
         )
