@@ -1,9 +1,59 @@
 import React from "react";
-// 「 npm install --save unfetch 」の実行が必要
+// 「 npm install --save isomorphic-unfetch 」の実行が必要
 import fetch from 'isomorphic-unfetch'
+// 「 npm install --save typeorm reflect-metadata 」の実行が必要
+// ※DBごとの接続クライアントも必要。PostgreSQLの場合はpg
+// ※デコレーター有効化のため以下の実施が必要（https://qiita.com/KuwaK/items/f40b151ceb6613da9161）
+// [1]：npm install --save-dev @babel/plugin-proposal-class-properties @babel/plugin-proposal-decorators
+// [2]：/.babelrc　を追加（プリセット設定、とnpm installした2プラグインの設定）
+// [3]：tsconfig.jsonのcompilerOptionsにexperimentalDecoratorsとemitDecoratorMetadataのtueを設定
+import * as typeorm from "typeorm";
 
-//const Home = () => <h1>Hello world!!!</h1>;
-//export default Home;
+// // pagesとしての最低限の記述
+// const Home = () => <h1>Hello world!!!</h1>;
+// export default Home;
+
+/**
+ *データ構造の定義
+ *
+ * @export
+ * @class TestModel01
+ */
+/*
+※PostgreSQLのデータベース準備用
+psql -U postgres
+CREATE ROLE appuser WITH PASSWORD 'apppass' LOGIN;
+CREATE DATABASE appdb WITH OWNER appuser;
+\q
+psql -U appuser appdb
+※パスワード：apppass
+CREATE TABLE test_model01 (
+    id bigserial
+  , name character varying(11) not null
+  , date timestamp(6) with time zone default CURRENT_TIMESTAMP
+  , primary key (id)
+);
+INSERT INTO test_model01 VALUES(1, 'name_val', current_timestamp);
+SELECT setval('test_model01_id_seq', (SELECT MAX(id) FROM test_model01));
+\q
+*/
+@typeorm.Entity()
+// MEMO: テーブル名はクラス名のロワースネークケースとなる。指定も可能。
+export class TestModel01 {
+  // 自動番号
+  @typeorm.PrimaryGeneratedColumn()
+  id!: number;
+  
+  // TODO: Column引数未指定だとエラーが出た
+  @typeorm.Column('text', {nullable:true}) //一般データ
+  name?: string;
+
+  // TODO: Column第一引数'timestamp'未指定だとエラーが出た
+  @typeorm.Column('timestamp',{
+    default: () => "CURRENT_TIMESTAMP"
+  }) // default値の指定:()=>"命令" でCURRENT_TIMESTAMPが文字列にならないように設定
+  date!: Date;
+}
 
 class Post {
   key: string;
@@ -17,6 +67,46 @@ interface HomeProps {
 }
 
 console.log("test3")
+
+/**
+ *非同期主処理
+ *
+ */
+async function dbAccessTest() {
+  // DBへ接続
+  // TODO: 環境によって異なる箇所のため設定切り出しが必要
+  const con = await typeorm.createConnection({
+    type: "postgres",
+    host: "localhost",
+    port: 5432,
+    username: "appuser",
+    password: "apppass",
+    database: `appdb`,
+    // 注意" これがtrueだと、モデル定義を変更すると即DB反映されます。
+    // 個人PJならいいですが、普通はmigrationファイルで世代管理すると思うのでfalseにします。
+    synchronize: false,
+    logging: true,
+    entities: [TestModel01], // TODO: 後で["src/entities/**/*.ts"],等に変更
+    // "migrations": ["src/db/migrations/**/*.ts"],
+    // "subscribers": ["src/db/subscribers/**/*.ts"],
+    // "cli": {
+    //   "entitiesDir": "src/entities",
+    //   "migrationsDir": "src/db/migrations",
+    //   "subscribersDir": "src/db/subscribers"
+    // }
+  });
+  //DBの構造を初期化
+//  await con.synchronize();
+  //テーブルアクセス用インスタンスの取得
+  const testModel01 = con.getRepository(TestModel01);
+  //テーブルへ挿入
+  await testModel01.insert({ name: "あいうえお" });
+  await testModel01.insert({ name: "かきくけこ" });
+  //データの取得と表示
+  const testValue01 = await testModel01.find();
+  console.log("[出力結果]\n%s",JSON.stringify(testValue01,null , "  "));
+  await con.close();
+}
 
 /*
 static async getInitialProps()は下記のタイミングで呼ばれる。
@@ -34,6 +124,10 @@ export default class Home extends React.Component<HomeProps, {}> {
           console.log("test2")
           const resData = await res.json()
           // 例: [{"title": "Next.jsでアプリをつくってみた"}, {"title": "workbox-swをためす"}]
+
+
+          // PostgreSQL接続お試し
+          dbAccessTest();
           
           // ここで return したデータがPropsとしてコンポーネントに渡されてくる。
           return {
@@ -52,10 +146,8 @@ export default class Home extends React.Component<HomeProps, {}> {
         }
       }
 
-    /*
-    getInitialProps()で返した値がコンポーネントにPropsとして渡されてくる。
-    サーバーサイドおよび、クライアントサイドで取得したデータをもとにレンダリング。
-    */
+    // getInitialProps()で返した値がコンポーネントにPropsとして渡されてくる。
+    // サーバーサイドおよび、クライアントサイドで取得したデータをもとにレンダリング。
     render () {
         return (
           <ul>
