@@ -19,24 +19,6 @@ import * as typeorm from "typeorm";
  * @export
  * @class TestModel01
  */
-/*
-※PostgreSQLのデータベース準備用
-psql -U postgres
-CREATE ROLE appuser WITH PASSWORD 'apppass' LOGIN;
-CREATE DATABASE appdb WITH OWNER appuser;
-\q
-psql -U appuser appdb
-※パスワード：apppass
-CREATE TABLE test_model01 (
-    id bigserial
-  , name character varying(11) not null
-  , date timestamp(6) with time zone default CURRENT_TIMESTAMP
-  , primary key (id)
-);
-INSERT INTO test_model01 VALUES(1, 'name_val', current_timestamp);
-SELECT setval('test_model01_id_seq', (SELECT MAX(id) FROM test_model01));
-\q
-*/
 @typeorm.Entity()
 // MEMO: テーブル名はクラス名のロワースネークケースとなる。指定も可能。
 export class TestModel01 {
@@ -77,7 +59,9 @@ async function dbAccessTest() {
   // TODO: 環境によって異なる箇所のため設定切り出しが必要
   const con = await typeorm.createConnection({
     type: "postgres",
-    host: "localhost",
+    // TODO: ローカルとfargateの値切り替え（127.0.0.1がFargate用）
+//    host: "127.0.0.1",
+    host: "postgres",
     port: 5432,
     username: "appuser",
     password: "apppass",

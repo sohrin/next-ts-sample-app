@@ -1,0 +1,2 @@
+CREATE ROLE appuser WITH PASSWORD 'apppass' LOGIN;
+CREATE DATABASE appdb WITH OWNER appuser;

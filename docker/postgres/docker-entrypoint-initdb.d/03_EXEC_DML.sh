@@ -1,0 +1,1 @@
+psql -U appuser appdb -f /docker-entrypoint-initdb.d/DML/DML-INSERT-test_model01.sql
