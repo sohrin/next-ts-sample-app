@@ -1,7 +1,10 @@
 # 2020-03-13時点のstable
 FROM nginx:1.16.1-alpine
+
 # 環境変数
 ARG EXPRESS_HOSTNAME
-# 準備した設定ファイルで上書き
-COPY conf.d/default.conf /etc/nginx/conf.d/default.conf
-RUN sed -i -e "s/\${EXPRESS_HOSTNAME}/$EXPRESS_HOSTNAME/g" /etc/nginx/conf.d/default.conf
+
+# 設定ファイルの配置・envsubst書き換え
+COPY conf.d/default.conf.template /etc/nginx/conf.d/default.conf.template
+RUN envsubst '${EXPRESS_HOSTNAME}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && /etc/nginx/conf.d/default.conf.template \
+    && rm /etc/nginx/conf.d/default.conf.template
