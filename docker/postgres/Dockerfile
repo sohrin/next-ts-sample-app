@@ -1,8 +1,8 @@
 # Docker で作る postgres 環境
 # https://crudzoo.com/blog/docker-postgres
 
-# AWSのRDSやAuroraは11.4だがdockerhubにalpineがないため11.7を利用
-FROM postgres:11.7-alpine
+# 2020-04-01時点のAmazon Auroraのデフォルト：10.7
+FROM postgres:10.7-alpine
 ENV LANG ja_JP.utf8
 
 # 初期設定

@@ -50,47 +50,47 @@ interface HomeProps {
 
 console.log("test3")
 
-/**
- *非同期主処理
- *
- */
-async function dbAccessTest() {
-  // DBへ接続
-  // TODO: 環境によって異なる箇所のため設定切り出しが必要
-  const con = await typeorm.createConnection({
-    type: "postgres",
-    // TODO: ローカルとfargateの値切り替え（127.0.0.1がFargate用）
-//    host: "127.0.0.1",
-    host: "postgres",
-    port: 5432,
-    username: "appuser",
-    password: "apppass",
-    database: `appdb`,
-    // 注意" これがtrueだと、モデル定義を変更すると即DB反映されます。
-    // 個人PJならいいですが、普通はmigrationファイルで世代管理すると思うのでfalseにします。
-    synchronize: false,
-    logging: true,
-    entities: [TestModel01], // TODO: 後で["src/entities/**/*.ts"],等に変更
-    // "migrations": ["src/db/migrations/**/*.ts"],
-    // "subscribers": ["src/db/subscribers/**/*.ts"],
-    // "cli": {
-    //   "entitiesDir": "src/entities",
-    //   "migrationsDir": "src/db/migrations",
-    //   "subscribersDir": "src/db/subscribers"
-    // }
-  });
-  //DBの構造を初期化
-//  await con.synchronize();
-  //テーブルアクセス用インスタンスの取得
-  const testModel01 = con.getRepository(TestModel01);
-  //テーブルへ挿入
-  await testModel01.insert({ name: "あいうえお" });
-  await testModel01.insert({ name: "かきくけこ" });
-  //データの取得と表示
-  const testValue01 = await testModel01.find();
-  console.log("[出力結果]\n%s",JSON.stringify(testValue01,null , "  "));
-  await con.close();
-}
+// /**
+//  *非同期主処理
+//  *
+//  */
+// async function dbAccessTest() {
+//   // DBへ接続
+//   // TODO: 環境によって異なる箇所のため設定切り出しが必要
+//   const con = await typeorm.createConnection({
+//     type: "postgres",
+//     // TODO: ローカルとfargateの値切り替え（127.0.0.1がFargate用）
+// //    host: "127.0.0.1",
+//     host: "postgres",
+//     port: 5432,
+//     username: "appuser",
+//     password: "apppass",
+//     database: `appdb`,
+//     // 注意" これがtrueだと、モデル定義を変更すると即DB反映されます。
+//     // 個人PJならいいですが、普通はmigrationファイルで世代管理すると思うのでfalseにします。
+//     synchronize: false,
+//     logging: true,
+//     entities: [TestModel01], // TODO: 後で["src/entities/**/*.ts"],等に変更
+//     // "migrations": ["src/db/migrations/**/*.ts"],
+//     // "subscribers": ["src/db/subscribers/**/*.ts"],
+//     // "cli": {
+//     //   "entitiesDir": "src/entities",
+//     //   "migrationsDir": "src/db/migrations",
+//     //   "subscribersDir": "src/db/subscribers"
+//     // }
+//   });
+//   //DBの構造を初期化
+// //  await con.synchronize();
+//   //テーブルアクセス用インスタンスの取得
+//   const testModel01 = con.getRepository(TestModel01);
+//   //テーブルへ挿入
+//   await testModel01.insert({ name: "あいうえお" });
+//   await testModel01.insert({ name: "かきくけこ" });
+//   //データの取得と表示
+//   const testValue01 = await testModel01.find();
+//   console.log("[出力結果]\n%s",JSON.stringify(testValue01,null , "  "));
+//   await con.close();
+// }
 
 /*
 static async getInitialProps()は下記のタイミングで呼ばれる。
@@ -111,7 +111,7 @@ export default class Home extends React.Component<HomeProps, {}> {
 
 
           // PostgreSQL接続お試し
-          dbAccessTest();
+//          dbAccessTest();
           
           // ここで return したデータがPropsとしてコンポーネントに渡されてくる。
           return {

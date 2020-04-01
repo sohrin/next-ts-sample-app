@@ -2,7 +2,7 @@ version: '3'
 services:
   nginx:
     image: 629540162457.dkr.ecr.ap-northeast-1.amazonaws.com/next-ts-sample-app_nginx
-    container_name: nginx
+    container_name: next-ts-sample-app_nginx
     ports:
       - "80:80"
     logging:
@@ -13,7 +13,7 @@ services:
         awslogs-stream-prefix: web
   express:
     image: 629540162457.dkr.ecr.ap-northeast-1.amazonaws.com/next-ts-sample-app_express
-    container_name: express
+    container_name: next-ts-sample-app_express
     working_dir: /src
     command: [sh, -c, npm install && npm run build && npm run start]
     ports:
@@ -24,3 +24,21 @@ services:
         awslogs-group: next-ts-sample-app-awslogs-group
         awslogs-region: ap-northeast-1
         awslogs-stream-prefix: frontend
+# MEMO: Fargateデプロイ時はPostgreSQLコンテナはデプロイしない。
+#  postgres:
+#    image: 629540162457.dkr.ecr.ap-northeast-1.amazonaws.com/next-ts-sample-app_postgres
+#    container_name: next-ts-sample-app_postgres
+#    ports:
+#      # エラーの回避のため、Dockerホスト側のポートはDockerコンテナ側と同じにしている。
+#      # ※ローカル環境は5432を使っていることが多いため55432にずらしている。
+#      # ClientException: When networkMode=awsvpc, the host ports and container ports in port mappings must match.
+#      - "5432:5432"
+#    environment:
+#      # TODO: envファイルに外出ししたほうがいいかも
+#      POSTGRES_PASSWORD: postgres
+#    logging:
+#      driver: awslogs
+#      options: 
+#        awslogs-group: next-ts-sample-app-awslogs-group
+#        awslogs-region: ap-northeast-1
+#        awslogs-stream-prefix: db
