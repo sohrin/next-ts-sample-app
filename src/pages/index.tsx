@@ -9,33 +9,13 @@ import fetch from 'isomorphic-unfetch'
 // [3]：tsconfig.jsonのcompilerOptionsにexperimentalDecoratorsとemitDecoratorMetadataのtueを設定
 import * as typeorm from "typeorm";
 
+import TestModel01 from "../entities/TestModel01"
+
 // // pagesとしての最低限の記述
 // const Home = () => <h1>Hello world!!!</h1>;
 // export default Home;
 
-/**
- *データ構造の定義
- *
- * @export
- * @class TestModel01
- */
-@typeorm.Entity()
-// MEMO: テーブル名はクラス名のロワースネークケースとなる。指定も可能。
-export class TestModel01 {
-  // 自動番号
-  @typeorm.PrimaryGeneratedColumn()
-  id!: number;
-  
-  // TODO: Column引数未指定だとエラーが出た
-  @typeorm.Column('text', {nullable:true}) //一般データ
-  name?: string;
 
-  // TODO: Column第一引数'timestamp'未指定だとエラーが出た
-  @typeorm.Column('timestamp',{
-    default: () => "CURRENT_TIMESTAMP"
-  }) // default値の指定:()=>"命令" でCURRENT_TIMESTAMPが文字列にならないように設定
-  date!: Date;
-}
 
 class Post {
   key: string;
@@ -50,47 +30,81 @@ interface HomeProps {
 
 console.log("test3")
 
-// /**
-//  *非同期主処理
-//  *
-//  */
-// async function dbAccessTest() {
-//   // DBへ接続
-//   // TODO: 環境によって異なる箇所のため設定切り出しが必要
-//   const con = await typeorm.createConnection({
-//     type: "postgres",
-//     // TODO: ローカルとfargateの値切り替え（127.0.0.1がFargate用）
-// //    host: "127.0.0.1",
-//     host: "postgres",
-//     port: 5432,
-//     username: "appuser",
-//     password: "apppass",
-//     database: `appdb`,
-//     // 注意" これがtrueだと、モデル定義を変更すると即DB反映されます。
-//     // 個人PJならいいですが、普通はmigrationファイルで世代管理すると思うのでfalseにします。
-//     synchronize: false,
-//     logging: true,
-//     entities: [TestModel01], // TODO: 後で["src/entities/**/*.ts"],等に変更
-//     // "migrations": ["src/db/migrations/**/*.ts"],
-//     // "subscribers": ["src/db/subscribers/**/*.ts"],
-//     // "cli": {
-//     //   "entitiesDir": "src/entities",
-//     //   "migrationsDir": "src/db/migrations",
-//     //   "subscribersDir": "src/db/subscribers"
-//     // }
-//   });
-//   //DBの構造を初期化
-// //  await con.synchronize();
-//   //テーブルアクセス用インスタンスの取得
-//   const testModel01 = con.getRepository(TestModel01);
-//   //テーブルへ挿入
-//   await testModel01.insert({ name: "あいうえお" });
-//   await testModel01.insert({ name: "かきくけこ" });
-//   //データの取得と表示
-//   const testValue01 = await testModel01.find();
-//   console.log("[出力結果]\n%s",JSON.stringify(testValue01,null , "  "));
-//   await con.close();
-// }
+/*
+    // 注意" これがtrueだと、モデル定義を変更すると即DB反映されます。
+    // 個人PJならいいですが、普通はmigrationファイルで世代管理すると思うのでfalseにします。
+    synchronize: false,
+
+    entities: [TestModel01], // TODO: 後で["src/entities/*.ts"],等に変更
+    // "migrations": ["src/db/migrations/*.ts"],
+    // "subscribers": ["src/db/subscribers/*.ts"],
+    // "cli": {
+    //   "entitiesDir": "src/entities",
+    //   "migrationsDir": "src/db/migrations",
+    //   "subscribersDir": "src/db/subscribers"
+    // }
+*/
+/**
+ *非同期主処理
+ *
+ */
+async function dbAccessTest() {
+  // DBへ接続
+  // TODO: 環境によって異なる箇所のため設定切り出しが必要
+//  const connectOption = require(`ormconfig.${env}.json`);
+  let con = null;
+//  try {
+//    con = await typeorm.getConnection("default");
+//  } catch (e) {
+//    if (con == null) {
+      // TODO: ormconfig.jsonから設定を読み込みたいが、「RepositoryNotFoundError: No repository for "エンティティクラス名" was found.」エラーが解決できない・・・
+/*
+      console.log(process.env.ENV_SETTINGS)
+      const env: string = (process.env.ENV_SETTINGS) ? process.env.ENV_SETTINGS : "local";
+      const connectOption = require(`../../ormconfig.local.json`);
+      console.log("connectOption：begin");
+      console.debug(connectOption)
+      console.log("connectOption：end");
+      console.log("★create connecton");
+*/
+      con = await typeorm.createConnection({
+        "name": "default",
+        "type": "postgres",
+        "host": "localhost",
+        "port": 5432,
+        "username": "appuser",
+        "password": "apppass",
+        "database": "appdb",
+        "synchronize": false,
+        "logging": true,
+        "entities": [TestModel01],
+        "cli": {
+            "entitiesDir": "dist/entities"
+        }
+      });
+      console.log("con:begin");
+      console.log(con);
+      console.log("con:end");
+//    }
+//  }
+
+  //DBの構造を初期化
+//  await con.synchronize();
+  //テーブルアクセス用インスタンスの取得
+  let obj = new TestModel01();
+  console.log("★TestModel01：begin");
+  console.log(obj);
+  console.log(TestModel01);
+  console.log("★TestModel01：end");
+  const testModel01 = con.getRepository(TestModel01);
+  //テーブルへ挿入
+  await testModel01.insert({ name: "あいうえお" });
+  await testModel01.insert({ name: "かきくけこ" });
+  //データの取得と表示
+  const testValue01 = await testModel01.find();
+  console.log("[出力結果]\n%s",JSON.stringify(testValue01,null , "  "));
+  await con.close();
+}
 
 /*
 static async getInitialProps()は下記のタイミングで呼ばれる。
@@ -111,7 +125,7 @@ export default class Home extends React.Component<HomeProps, {}> {
 
 
           // PostgreSQL接続お試し
-//          dbAccessTest();
+          dbAccessTest();
           
           // ここで return したデータがPropsとしてコンポーネントに渡されてくる。
           return {
