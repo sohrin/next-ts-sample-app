@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv-webpack": "^1.7.0",
     "isomorphic-unfetch": "^3.0.0",
     "next": "^9.3.0",
     "pg": "^7.18.2",
@@ -26,5 +27,8 @@
     "@types/node": "^13.9.1",
     "@types/react": "^16.9.23",
     "typescript": "^3.8.3"
+  },
+  "browser": {
+    "fs": false
   }
 }
