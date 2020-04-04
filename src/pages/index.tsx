@@ -1,21 +1,12 @@
 import React from "react";
 // 「 npm install --save isomorphic-unfetch 」の実行が必要
-import fetch from 'isomorphic-unfetch'
-// 「 npm install --save typeorm reflect-metadata 」の実行が必要
-// ※DBごとの接続クライアントも必要。PostgreSQLの場合はpg
-// ※デコレーター有効化のため以下の実施が必要（https://qiita.com/KuwaK/items/f40b151ceb6613da9161）
-// [1]：npm install --save-dev @babel/plugin-proposal-class-properties @babel/plugin-proposal-decorators
-// [2]：/.babelrc　を追加（プリセット設定、とnpm installした2プラグインの設定）
-// [3]：tsconfig.jsonのcompilerOptionsにexperimentalDecoratorsとemitDecoratorMetadataのtueを設定
-import * as typeorm from "typeorm";
-
-import TestModel01 from "../entities/TestModel01"
+import fetch from 'isomorphic-unfetch';
+import TypeOrmUtils from "../common/utils/TypeOrmUtils";
+import TestModel01 from "../entities/TestModel01";
 
 // // pagesとしての最低限の記述
 // const Home = () => <h1>Hello world!!!</h1>;
 // export default Home;
-
-
 
 class Post {
   key: string;
@@ -44,64 +35,21 @@ console.log("test3")
     //   "subscribersDir": "src/db/subscribers"
     // }
 */
-/**
- *非同期主処理
- *
- */
-async function dbAccessTest() {
-  // DBへ接続
-  // TODO: 環境によって異なる箇所のため設定切り出しが必要
-//  const connectOption = require(`ormconfig.${env}.json`);
-  let con = null;
-//  try {
-//    con = await typeorm.getConnection("default");
-//  } catch (e) {
-//    if (con == null) {
-      // TODO: ormconfig.jsonから設定を読み込みたいが、「RepositoryNotFoundError: No repository for "エンティティクラス名" was found.」エラーが解決できない・・・
-/*
-      console.log(process.env.ENV_SETTINGS)
-      const env: string = (process.env.ENV_SETTINGS) ? process.env.ENV_SETTINGS : "local";
-      const connectOption = require(`../../ormconfig.local.json`);
-      console.log("connectOption：begin");
-      console.debug(connectOption)
-      console.log("connectOption：end");
-      console.log("★create connecton");
-*/
-      con = await typeorm.createConnection({
-        "name": "default",
-        "type": "postgres",
-        "host": "localhost",
-        "port": 5432,
-        "username": "appuser",
-        "password": "apppass",
-        "database": "appdb",
-        "synchronize": false,
-        "logging": true,
-        "entities": [TestModel01],
-        "cli": {
-            "entitiesDir": "dist/entities"
-        }
-      });
-      console.log("con:begin");
-      console.log(con);
-      console.log("con:end");
-//    }
-//  }
 
-  //DBの構造を初期化
-//  await con.synchronize();
-  //テーブルアクセス用インスタンスの取得
-  let obj = new TestModel01();
-  console.log("★TestModel01：begin");
-  console.log(obj);
-  console.log(TestModel01);
-  console.log("★TestModel01：end");
-  const testModel01 = con.getRepository(TestModel01);
+async function dbAccessTest() {
+  // コネクション取得
+  let con = await TypeOrmUtils.getTypeOrmConnection();
+
+  // DBの構造を初期化
+  // await con.synchronize();
+
+  // テーブルアクセス用インスタンスの取得
+  const testModel01Repo = con.getRepository(TestModel01);
   //テーブルへ挿入
-  await testModel01.insert({ name: "あいうえお" });
-  await testModel01.insert({ name: "かきくけこ" });
+  await testModel01Repo.insert({ name: "あいうえお" });
+  await testModel01Repo.insert({ name: "かきくけこ" });
   //データの取得と表示
-  const testValue01 = await testModel01.find();
+  const testValue01 = await testModel01Repo.find();
   console.log("[出力結果]\n%s",JSON.stringify(testValue01,null , "  "));
   await con.close();
 }
@@ -122,7 +70,6 @@ export default class Home extends React.Component<HomeProps, {}> {
           console.log("test2")
           const resData = await res.json()
           // 例: [{"title": "Next.jsでアプリをつくってみた"}, {"title": "workbox-swをためす"}]
-
 
           // PostgreSQL接続お試し
           dbAccessTest();
