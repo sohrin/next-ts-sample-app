@@ -1,0 +1,29 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "cd kotlin-backend && gradlew build"
+        },
+        {
+            "label": "bootRun",
+            "type": "shell",
+            "command": "cd kotlin-backend && gradlew bootRun",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "cd kotlin-backend && gradlew clean"
+        },
+        {
+            "label": "check",
+            "type": "shell",
+            "command": "cd kotlin-backend && gradlew check"
+        }
+    ]
+}
