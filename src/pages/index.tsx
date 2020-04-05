@@ -64,12 +64,15 @@ export default class Home extends React.Component<HomeProps, {}> {
 
     static async getInitialProps({ Component, router, ctx }) {
         try {
-          // 外部APIサーバーからデータを取得。
-          console.log("test1")
-          const res = await fetch('http://localhost:3000/api/sample')
-          console.log("test2")
-          const resData = await res.json()
-          // 例: [{"title": "Next.jsでアプリをつくってみた"}, {"title": "workbox-swをためす"}]
+          // TypeScriptのAPIからデータを取得
+          const nextJsApiResponse = await fetch('http://localhost:3000/api/sample')
+          const nextJsApiResponseData = await nextJsApiResponse.json()
+          console.log(nextJsApiResponseData);
+          
+          // Spring BootのAPIからデータを取得
+          const springBootApiResponse = await fetch('http://localhost:8080/samples')
+          const springBootApiResponseData = await springBootApiResponse.json()
+          console.log(springBootApiResponseData);
 
           // PostgreSQL接続お試し
           dbAccessTest();
@@ -79,7 +82,7 @@ export default class Home extends React.Component<HomeProps, {}> {
               "posts": [
                 {
                   key: "key_value",
-                  title: resData.message
+                  title: nextJsApiResponseData.message
                 }
               ]
             }
