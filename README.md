@@ -112,6 +112,7 @@ https://qiita.com/rubytomato@github/items/daa723db5deffc908df7
 ※未実施
 
 
+
 ## メモ書き（Rust）
 
 ・Windows10でRustの開発環境を構築
@@ -151,3 +152,21 @@ https://qiita.com/euledge/items/ce3e24a2b8020441cd85
 ・Cannot inline bytecode built with JVM target 1.8 into bytecode that is being built with JVM target 1.6. Please specify proper ‘-jvm-target’ option
 https://qiita.com/kph7mgb/items/28ee37957976e80e38f2
 vscodeでも、「ctrl + ,」でKotlinを検索したら↑の設定が出てくるので、defaultを1.8にしたらエラーがでなくなった。
+
+・【グッバイEclipse】VSCodeでJavaの開発環境を構築するための設定方法【import保管やデバッグ確認まで出来ちゃう】
+https://blogenist.jp/2019/11/06/9687/#import
+
+・「Visual Studio Code デバッグ技術」読んだ
+https://cormorant.hatenablog.com/entry/2018/04/29/002150
+
+・Spring Bootの開発はVS CodeをメインにしてSTSをサブにするのが最強じゃね？
+https://www.aruse.net/entry/2019/07/28/112144
+※dashboardでサブディレクトリのSpring Bootを起動する方法は？？？
+
+■TODO
+・SPRING-BOOT DASHBOARDでどうやって起動する？
+・デバッグ起動方法（ひとまずkotlin側にlaunch.jsonを追加してみたが、ターミナルで以下で止まる）
+d9c76980 Building: 50% Copying resources to the output folder [504/1000]
+・boot-java change-detectionをonに設定
+→いる？？？
+
