@@ -12,7 +12,6 @@ class SampleApiController {
     @Autowired
     lateinit var sampleService: SampleService
 
-	    // 全件取得
     @GetMapping("samples")
     fun getSampleList(): List<Sample> {
         return sampleService.getSampleList()
