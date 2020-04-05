@@ -118,6 +118,17 @@ https://qiita.com/rubytomato@github/items/daa723db5deffc908df7
 ・Windows10でRustの開発環境を構築
 https://qiita.com/euledge/items/ce3e24a2b8020441cd85
 
+・[Rust]Actixインストール手順
+https://qiita.com/taichikanaya_1989/items/1dbc456278e8fe5b0996
+
+・diesel
+https://qiita.com/techno-tanoC/items/4ca564bd1ea8db409496
+https://qiita.com/kenmaro/items/652204a7afd7c870b7db
+https://qiita.com/AtsukiTak/items/568304c528c17fc6d10b
+
+・[Rust] WebAssemblyを用いたウェブフロントエンド開発入門
+https://qiita.com/osanshouo/items/40f087cc79a1446ad7ef
+
 
 ## この設定いる？
 ・vscodeにJavaHomeの設定「ファイル＞基本設定（Preferences）＞設定（Settings）」で「JAVA_HOME」を検索するとsettings.jsonを開く事ができる。
@@ -167,6 +178,21 @@ https://www.aruse.net/entry/2019/07/28/112144
 ・SPRING-BOOT DASHBOARDでどうやって起動する？
 ・デバッグ起動方法（ひとまずkotlin側にlaunch.jsonを追加してみたが、ターミナルで以下で止まる）
 d9c76980 Building: 50% Copying resources to the output folder [504/1000]
+VS Code + Spring Boot + Maven + JPA + H2 で最速 Web API 環境の構築（Step1）
+http://kusamakura.hatenablog.com/entry/vscode_springboot_maven_jpa_h2_webapi_step1
+https://stackoverflow.com/questions/59357618/how-to-set-kotlin-debug-launch-json-configurations-in-vs-code
+https://stackoverflow.com/questions/4686364/eclipse-hangs-when-building-project-copying-resources-to-output-folder
+https://qiita.com/chakimar/items/39937cf39d2069758c83
+https://qiita.com/miro108/items/43cf6878eff70830a0c9
+https://www.aruse.net/entry/2019/07/28/112144
+https://auth0.com/blog/jp-vuejs-spring-boot-kotlin-and-graphql-building-modern-apps-part-1/
+https://qiita.com/ikemura23/items/1746facbb243c8b5eca3
+https://qiita.com/omochimetaru/items/98e015b0b694dd97f323
+https://qiita.com/ikatechx/items/02c706755619a08353bc
+https://akiko-pusu.github.io/kotlin-study/2017/04/25/vscode-setting.html
+
+
+
 ・boot-java change-detectionをonに設定
 →いる？？？
 
