@@ -24,6 +24,11 @@
             "label": "check",
             "type": "shell",
             "command": "cd kotlin-backend && gradlew check"
-        }
+        },
+        {
+            "label": "jibDockerBuild",
+            "type": "shell",
+            "command": "cd kotlin-backend && gradlew jibDockerBuild"
+        },
     ]
 }

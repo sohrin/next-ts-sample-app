@@ -196,3 +196,7 @@ https://akiko-pusu.github.io/kotlin-study/2017/04/25/vscode-setting.html
 ・boot-java change-detectionをonに設定
 →いる？？？
 
+
+
+・jib を使って Java アプリケーションを超簡単にコンテナ化！
+https://www.isoroot.jp/blog/1744/
