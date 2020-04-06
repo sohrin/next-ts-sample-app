@@ -13,6 +13,7 @@ if (!process.env.NODE_ENV) {
 } else {
     dotenvFilename = '.env';
 }
+console.log("★★★env file: [" + dotenvFilename + "]");
 
 export function webpack(config, { isServer }) {
     config.plugins = [
@@ -23,10 +24,10 @@ export function webpack(config, { isServer }) {
         })
     ];
     // Fixes npm packages that depend on `fs` module
-    if (!isServer) {
-        config.node = {
-            fs: 'empty'
-        };
-    }
+    // if (!isServer) {
+    //     config.node = {
+    //         fs: 'empty'
+    //     };
+    // }
     return config;
 }

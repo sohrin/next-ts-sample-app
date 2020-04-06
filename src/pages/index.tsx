@@ -69,13 +69,14 @@ export default class Home extends React.Component<HomeProps, {}> {
           const nextJsApiResponseData = await nextJsApiResponse.json()
           console.log(nextJsApiResponseData);
           
-          // Spring BootのAPIからデータを取得
-          const springBootApiResponse = await fetch('http://localhost:8080/samples')
-          const springBootApiResponseData = await springBootApiResponse.json()
-          console.log(springBootApiResponseData);
-
           // PostgreSQL接続お試し
           dbAccessTest();
+
+          // Spring BootのAPIからデータを取得
+console.log(process.env)
+          const springBootApiResponse = await fetch('http://' + process.env.BACKEND_HOSTNAME + ':8080/samples')
+          const springBootApiResponseData = await springBootApiResponse.json()
+          console.log(springBootApiResponseData);
           
           // ここで return したデータがPropsとしてコンポーネントに渡されてくる。
           return {
