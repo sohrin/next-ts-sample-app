@@ -59,6 +59,9 @@ Next.js(TypeScript)のサンプルプロジェクトです。
 ## ディレクトリ構成／重要なファイル等
 - 後日整理
 
+## トラブルシューティングメモ
+- .dockerignoreファイルのコメント中に日本語があると、ファイルがUTF-8でも文字コードエラーが発生する。
+
 ## その他メモ
 - mdファイルのプレビュー(vscode)：ctrl + k -> v
 - マークダウンのチートシート：https://gist.github.com/mignonstyle/083c9e1651d7734f84c99b8cf49d57fa
