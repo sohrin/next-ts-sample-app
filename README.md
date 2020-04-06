@@ -215,3 +215,19 @@ https://www.isoroot.jp/blog/1744/
 ※（4/6）自宅で出てたエラーは会社では出ず。
 
 ※Run task、一度コマンドプロンプトを立ち上げて実行してあげないと動かないことがある（例：gradlew jibDockerBuild）
+
+
+・package.jsonで環境変数(NODE_ENV)を設定するとき、WindowsでもLinux,Macでも動くようにする
+https://qiita.com/riversun/items/d45b26f4a7aad6e51b69
+https://nextjs.org/docs#manual-setup
+https://stackoverflow.com/questions/60880050/env-with-next-js-on-local
+https://github.com/motdotla/dotenv
+
+・なぜNext.jsを採用するのか？
+https://mottox2.com/posts/429
+
+・プログラム内でdotenvを読み込むのをやめた話
+https://blog.leko.jp/post/you-might-not-need-dotenv-in-source/
+
+・最近っぽいnext.jsの設定
+https://qiita.com/numa999/items/aef01affdb25bbaa3290
