@@ -26,3 +26,8 @@ services:
     environment:
       # TODO: envファイルに外出ししたほうがいいかも
       POSTGRES_PASSWORD: postgres
+  kotlin-backend:
+    image: next-ts-sample-app_kotlin-backend
+    container_name: next-ts-sample-kotlin-backend
+    ports:
+      - "58080:8080"

@@ -200,3 +200,9 @@ https://akiko-pusu.github.io/kotlin-study/2017/04/25/vscode-setting.html
 
 ・jib を使って Java アプリケーションを超簡単にコンテナ化！
 https://www.isoroot.jp/blog/1744/
+
+※spring、Run taskで起動するだけなら、Kotlinコンパイラインストールと拡張機能「Kotlin」、「Kotlin Language」だけでいけた。
+
+※（4/6）自宅で出てたエラーは会社では出ず。
+
+※Run task、一度コマンドプロンプトを立ち上げて実行してあげないと動かないことがある（例：gradlew jibDockerBuild）

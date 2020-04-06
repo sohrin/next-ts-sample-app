@@ -50,6 +50,6 @@ tasks.withType<KotlinCompile> {
 
 jib {
   to {
-    image = "next-ts-sample-app/spring-boot-kotlin-backend"
+    image = "next-ts-sample-app_kotlin-backend"
   }
 }
