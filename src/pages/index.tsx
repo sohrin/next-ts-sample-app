@@ -37,21 +37,34 @@ console.log("test3")
 */
 
 async function dbAccessTest() {
-  // コネクション取得
-  let con = await TypeOrmUtils.getTypeOrmConnection();
+  try {
+console.log("※dbAccessTest:1");
+    // コネクション取得
+    let con = await TypeOrmUtils.getTypeOrmConnection();
+console.log(con);
+console.log("※dbAccessTest:2");
+    // DBの構造を初期化
+    // await con.synchronize();
 
-  // DBの構造を初期化
-  // await con.synchronize();
-
-  // テーブルアクセス用インスタンスの取得
-  const testModel01Repo = con.getRepository(TestModel01);
-  //テーブルへ挿入
-  await testModel01Repo.insert({ name: "あいうえお" });
-  await testModel01Repo.insert({ name: "かきくけこ" });
-  //データの取得と表示
-  const testValue01 = await testModel01Repo.find();
-  console.log("[出力結果]\n%s",JSON.stringify(testValue01,null , "  "));
-  await con.close();
+    // テーブルアクセス用インスタンスの取得
+    const testModel01Repo = con.getRepository(TestModel01);
+console.log(testModel01Repo);
+console.log("※dbAccessTest:3");
+    //テーブルへ挿入
+//    await testModel01Repo.insert({ name: "あいうえお" });
+console.log("※dbAccessTest:4");
+//    await testModel01Repo.insert({ name: "かきくけこ" });
+console.log("※dbAccessTest:5");
+    //データの取得と表示
+    const testValue01 = await testModel01Repo.find();
+console.log("※dbAccessTest:6");
+    console.log("[出力結果]\n%s",JSON.stringify(testValue01,null , "  "));
+    await con.close();
+console.log("※dbAccessTest:7");
+  } catch (e) {
+    console.log("■■■dbAccessTest() error!!")
+    console.log(e);
+  }
 }
 
 /*
@@ -62,8 +75,13 @@ static async getInitialProps()は下記のタイミングで呼ばれる。
 */
 export default class Home extends React.Component<HomeProps, {}> {
 
-    static async getInitialProps({ Component, router, ctx }) {
+    static async getInitialProps({ Component, router, ctx, req }) {
         try {
+          if (req) {
+            console.log("■■■■■SSR getInitialProps() BEGIN.");
+          } else {
+            console.log("■■■■■browser getInitialProps() BEGIN.");
+          }
           // TypeScriptのAPIからデータを取得
           const nextJsApiResponse = await fetch('http://localhost:3000/api/sample')
           const nextJsApiResponseData = await nextJsApiResponse.json()
@@ -73,7 +91,6 @@ export default class Home extends React.Component<HomeProps, {}> {
           dbAccessTest();
 
           // Spring BootのAPIからデータを取得
-console.log(process.env)
           const springBootApiResponse = await fetch('http://' + process.env.BACKEND_HOSTNAME + ':8080/samples')
           const springBootApiResponseData = await springBootApiResponse.json()
           console.log(springBootApiResponseData);
@@ -92,6 +109,8 @@ console.log(process.env)
     
           // エラーが発生した時に返すデータ。
           return {"posts": []}
+        } finally {
+          console.log("■■■■■SSR/browser getInitialProps() END.");
         }
       }
 

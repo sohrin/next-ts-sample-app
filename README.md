@@ -231,3 +231,16 @@ https://blog.leko.jp/post/you-might-not-need-dotenv-in-source/
 
 ・最近っぽいnext.jsの設定
 https://qiita.com/numa999/items/aef01affdb25bbaa3290
+
+・イマドキのJavaScriptの書き方2018
+https://qiita.com/shibukawa/items/19ab5c381bbb2e09d0d9
+※以下を実施
+文字列テンプレートリテラル
+アロー関数
+Promise
+デフォルト引数
+thisを操作するコードは書かない
+ループはfor ... ofを使う
+辞書・ハッシュ用途はオブジェクトではなくてMapを使う
+分割代入（Destructuring Assignment）
+スプレッド演算子
