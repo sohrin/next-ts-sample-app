@@ -2,7 +2,7 @@ const dotEnv = require('dotenv');
 const path = require('path');
 let dotEnvFileName = null;
 let nodeEnv = `${process.env.NODE_ENV}`;
-if (nodeEnv === "") {
+if (nodeEnv === "docker") {
     dotEnvFileName = ".env";
 } else {
     dotEnvFileName = ".env." + nodeEnv;
