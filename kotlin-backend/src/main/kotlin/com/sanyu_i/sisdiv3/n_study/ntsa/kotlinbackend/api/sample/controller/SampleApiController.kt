@@ -7,14 +7,20 @@ import com.sanyu_i.sisdiv3.n_study.ntsa.kotlinbackend.api.sample.dataset.Sample
 
 
 @RestController
+@RequestMapping("/sample")
 class SampleApiController {
 
     @Autowired
     lateinit var sampleService: SampleService
 
-    @GetMapping("samples")
-    fun getSampleList(): List<Sample> {
-        return sampleService.getSampleList()
+    @GetMapping("/getAll")
+    fun getAll(): List<Sample> {
+        return sampleService.getAll()
+    }
+
+    @PostMapping("/add")
+    fun add(sample : Sample): Int {
+        return sampleService.add(sample)
     }
 
 }

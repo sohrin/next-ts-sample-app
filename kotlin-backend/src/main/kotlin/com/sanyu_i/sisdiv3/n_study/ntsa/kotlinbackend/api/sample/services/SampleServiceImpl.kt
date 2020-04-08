@@ -11,12 +11,17 @@ class SampleServiceImpl : SampleService {
     @Autowired
     lateinit var sampleMapper: SampleMapper
 
-    override fun getSampleList(): List<Sample> {
+    override fun getAll(): List<Sample> {
         // var sampleList : MutableList<Sample> = mutableListOf<Sample>()
         // sampleList.add(Sample(1, "name1"));
         // sampleList.add(Sample(2, "name2"));
-        var sampleList : List<Sample> = sampleMapper.getSampleList()
+        var sampleList : List<Sample> = sampleMapper.getAll()
         return sampleList
+    }
+
+    override fun add(sample : Sample): Int {
+        var insCnt = sampleMapper.add(sample)
+        return insCnt
     }
 
 }

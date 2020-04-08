@@ -244,3 +244,19 @@ thisを操作するコードは書かない
 辞書・ハッシュ用途はオブジェクトではなくてMapを使う
 分割代入（Destructuring Assignment）
 スプレッド演算子
+
+■Kotlinメモ
+・基本の型（公式ドキュメント）
+https://dogwood008.github.io/kotlin-web-site-ja/docs/reference/basic-types.html
+※基本型も、Int等、頭が大文字になっている
+
+・関数（公式ドキュメント）
+https://dogwood008.github.io/kotlin-web-site-ja/docs/reference/functions.html
+※引数の定義の記法が少し異なる
+
+■Spring Bootメモ
+・Spring FrameworkのControllerの基本的なアノテーション
+https://morizyun.github.io/java/spring-framework-controller-annotation.html
+
+・mybatisでstring型を動的パラメータ（${ }）で渡そうとしたらエラー　MyBatisSystemException
+https://ito-u-oti.com/post-270/

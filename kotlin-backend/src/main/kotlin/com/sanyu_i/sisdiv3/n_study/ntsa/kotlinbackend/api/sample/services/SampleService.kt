@@ -4,6 +4,8 @@ import com.sanyu_i.sisdiv3.n_study.ntsa.kotlinbackend.api.sample.dataset.Sample
 
 interface SampleService {
 
-    fun getSampleList(): List<Sample>
+    fun getAll(): List<Sample>
+
+    fun add(sample : Sample): Int
 
 }

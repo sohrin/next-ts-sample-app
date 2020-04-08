@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sanyu_i.sisdiv3.n_study.ntsa.kotlinbackend.api.sample.dao.SampleMapper">
     <select
-        id="getSampleList"
+        id="getAll"
         resultType="com.sanyu_i.sisdiv3.n_study.ntsa.kotlinbackend.api.sample.dataset.Sample"
     >
         SELECT
@@ -13,4 +13,16 @@
         FROM
             test_model01
     </select>
+    <insert
+        id="add"
+        parameterType="com.sanyu_i.sisdiv3.n_study.ntsa.kotlinbackend.api.sample.dataset.Sample"
+    >
+        INSERT INTO test_model01 (
+              id
+            , name
+        ) VALUES (
+              ${id}
+            , ${name}
+        )
+    </insert>
 </mapper>

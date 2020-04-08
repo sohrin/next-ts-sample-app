@@ -2,6 +2,7 @@ import React from "react";
 import Link from 'next/link'
 // 「 npm install --save isomorphic-unfetch 」の実行が必要
 import fetch from 'isomorphic-unfetch';
+//import FormData from 'form-data'
 import TypeOrmUtils from "../common/utils/TypeOrmUtils";
 import TestModel01 from "../entities/TestModel01";
 
@@ -73,15 +74,45 @@ export default class Home extends React.Component<HomeProps, {}> {
             console.log("■■■■■browser getInitialProps() BEGIN.");
           }
           // TypeScriptのAPIからデータを取得
-          const nextJsApiResponse = await fetch('http://localhost:3000/api/sample')
-          const nextJsApiResponseData = await nextJsApiResponse.json()
-          console.log(nextJsApiResponseData);
+          // ※Next.jsのAPIの動作確認用コード。
+          //   SSRでは動くが、ブラウザ側ではホスト部分が見つからずエラーとなる。
+//          const nextJsApiResponse = await fetch('http://localhost:3000/api/sample')
+//          const nextJsApiResponseData = await nextJsApiResponse.json()
+//          console.log(nextJsApiResponseData);
           
           // PostgreSQL接続お試し
-          dbAccessTest();
-
+          // ※TypeORMの動作確認用コード。
+          //   SSRでは動くが、ブラウザ側ではホスト部分が見つからずエラーとなる。
+//          dbAccessTest();
+          
           // Spring BootのAPIからデータを取得
-          const springBootApiResponse = await fetch('http://' + process.env.BACKEND_HOSTNAME + ':8080/samples')
+          // ※DBアクセスはバックエンドAPIを経由して行うこと。その方式であればSSRでもブラウザでも動く。
+
+          // TODO: BACKEND_HOSTNAMEにポートも含めるべき（必要な場合のみポート指定できるように）
+          // TODO: コンテナ間通信ができるSSR側でもインターネット経由とすべき？そのためにはreqありなしで要ホスト名切り替え
+
+          // 1件INSERT
+
+
+
+          // TODO: あっているか怪しい。いったんform-dataはuninstallした。bodyもオブジェクトで渡したい・・・
+
+
+
+//          let date = new Date();
+//          let formData = new FormData()
+//          formData.append('id', String(date.getTime()));
+//          formData.append('name', date.toString());
+          await fetch('http://' + process.env.BACKEND_HOSTNAME + ':8080/sample/add', {
+            method: 'post',
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded; charset=utf-8',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify('{"id": "' + String(date.getTime()) + '", "name": "' + date.toString() + '"}')
+          })
+          // 全件SELECT
+          const springBootApiResponse = await fetch('http://' + process.env.BACKEND_HOSTNAME + ':8080/sample/getAll')
           const springBootApiResponseData = await springBootApiResponse.json()
           console.log(springBootApiResponseData);
           
@@ -90,7 +121,8 @@ export default class Home extends React.Component<HomeProps, {}> {
               "posts": [
                 {
                   key: "key_value",
-                  title: nextJsApiResponseData.message
+//                  title: nextJsApiResponseData.message
+                  title: JSON.stringify(springBootApiResponseData)
                 }
               ]
             }

@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper
 @Mapper
 interface SampleMapper {
 
-    fun getSampleList(): List<Sample>
+    fun getAll(): List<Sample>
+
+    fun add(sample : Sample): Int
 
 }
