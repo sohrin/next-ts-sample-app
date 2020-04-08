@@ -13,27 +13,22 @@ import TestModel01 from "../../entities/TestModel01";
 // 一旦、ソース内で環境変数により設定値を切り替えることにした。
 // TODO: 環境変数切り出し（Next.jsで環境変数を利用するためにdotenvは必要ない：https://qiita.com/matamatanot/items/1c8f1c1e21664591c220）
 export default class TypeOrmUtils {
-
-    static connection: Promise<Connection>;
-
     static async getTypeOrmConnection() {
-        if (this.connection == null) {
-            this.connection = createConnection({
-                "name": "default",
-                "type": "postgres",
-                "host": process.env.POSTGRES_HOSTNAME,
-                "port": 5432,
-                "username": "appuser",
-                "password": "apppass",
-                "database": "appdb",
-                "synchronize": false,
-                "logging": true,
-                "entities": [TestModel01],
-                "cli": {
-                    "entitiesDir": "dist/entities"
-                }
-            });
-        }
-        return this.connection;
+        let connection = createConnection({
+            "name": "default",
+            "type": "postgres",
+            "host": process.env.POSTGRES_HOSTNAME,
+            "port": 5432,
+            "username": "appuser",
+            "password": "apppass",
+            "database": "appdb",
+            "synchronize": false,
+            "logging": true,
+            "entities": [TestModel01],
+            "cli": {
+                "entitiesDir": "dist/entities"
+            }
+        });
+        return connection;
     }
 }

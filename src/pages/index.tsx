@@ -1,4 +1,5 @@
 import React from "react";
+import Link from 'next/link'
 // 「 npm install --save isomorphic-unfetch 」の実行が必要
 import fetch from 'isomorphic-unfetch';
 import TypeOrmUtils from "../common/utils/TypeOrmUtils";
@@ -37,34 +38,23 @@ console.log("test3")
 */
 
 async function dbAccessTest() {
-  try {
-console.log("※dbAccessTest:1");
-    // コネクション取得
-    let con = await TypeOrmUtils.getTypeOrmConnection();
-console.log(con);
-console.log("※dbAccessTest:2");
-    // DBの構造を初期化
-    // await con.synchronize();
+  // コネクション取得
+  let con = await TypeOrmUtils.getTypeOrmConnection();
 
-    // テーブルアクセス用インスタンスの取得
-    const testModel01Repo = con.getRepository(TestModel01);
-console.log(testModel01Repo);
-console.log("※dbAccessTest:3");
-    //テーブルへ挿入
-//    await testModel01Repo.insert({ name: "あいうえお" });
-console.log("※dbAccessTest:4");
-//    await testModel01Repo.insert({ name: "かきくけこ" });
-console.log("※dbAccessTest:5");
-    //データの取得と表示
-    const testValue01 = await testModel01Repo.find();
-console.log("※dbAccessTest:6");
-    console.log("[出力結果]\n%s",JSON.stringify(testValue01,null , "  "));
-    await con.close();
-console.log("※dbAccessTest:7");
-  } catch (e) {
-    console.log("■■■dbAccessTest() error!!")
-    console.log(e);
-  }
+  // DBの構造を初期化
+  // await con.synchronize();
+
+  // テーブルアクセス用インスタンスの取得
+  const testModel01Repo = con.getRepository(TestModel01);
+
+  // テーブルへ挿入
+  await testModel01Repo.insert({ name: "あいうえお" });
+  await testModel01Repo.insert({ name: "かきくけこ" });
+
+  //データの取得と表示
+  const testValue01List = await testModel01Repo.find();
+  console.log("[出力結果]\n%s",JSON.stringify(testValue01List, null, "  "));
+  await con.close();
 }
 
 /*
@@ -122,6 +112,9 @@ export default class Home extends React.Component<HomeProps, {}> {
             <h1>Hello world!!!</h1>
             <p><a href="/static.html">staticフォルダのhtmlへ遷移</a></p>
             {this.props.posts.map((post) => <li key={post.key}>{post.title}</li>)}
+            <Link href="/about">
+              <a>About Us</a>
+            </Link>
           </ul>
         )
     }
