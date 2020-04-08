@@ -29,6 +29,6 @@
             "label": "jibDockerBuild",
             "type": "shell",
             "command": "cd kotlin-backend && gradlew jibDockerBuild"
-        },
+        }
     ]
 }

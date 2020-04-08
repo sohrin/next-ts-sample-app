@@ -21,8 +21,8 @@
               id
             , name
         ) VALUES (
-              ${id}
-            , ${name}
+              #{id}
+            , #{name}
         )
     </insert>
 </mapper>

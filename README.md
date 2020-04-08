@@ -245,7 +245,40 @@ thisを操作するコードは書かない
 分割代入（Destructuring Assignment）
 スプレッド演算子
 
+
+
+■TODO（Swagger）
+・Swaggerの概要をまとめてみた。
+https://qiita.com/gcyata/items/342073fa7607fd4082bd
+
+・Kotlin + Spring BootでREST APIを作ってみる
+https://qiita.com/ARBALEST000/items/0e0ef5074ae110120ac7
+
+■TODO（vscode＋Spring Boot）
+・Spring Boot in Visual Studio Code
+https://code.visualstudio.com/docs/java/java-spring-boot
+
+
+
+■vscodeメモ
+・Java開発環境をVisual Studio Code で整える
+https://solutionware.jp/blog/2018/06/01/java%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E3%82%92visual-studio-code-%E3%81%A7%E6%95%B4%E3%81%88%E3%82%8B/
+
+・【グッバイNetBeans】VSCodeでSpringBootの開発環境を構築するための設定方法【ホットリロードやデバッグにも対応】
+https://blogenist.jp/2019/11/08/9757/
+
+
+
+■TypeScriptメモ
+・今更聞けない JSX のコメントアウトの構文
+https://qiita.com/naoiwata/items/c590667765143c41d87a
+
+
+
 ■Kotlinメモ
+・Kotlin で RESTful API を開発する
+https://auth0.com/blog/jp-developing-restful-apis-with-kotlin/
+
 ・基本の型（公式ドキュメント）
 https://dogwood008.github.io/kotlin-web-site-ja/docs/reference/basic-types.html
 ※基本型も、Int等、頭が大文字になっている
@@ -254,9 +287,42 @@ https://dogwood008.github.io/kotlin-web-site-ja/docs/reference/basic-types.html
 https://dogwood008.github.io/kotlin-web-site-ja/docs/reference/functions.html
 ※引数の定義の記法が少し異なる
 
+・Kotlinのいいところ/Data Class
+http://blog.techfirm.co.jp/2015/10/21/kotlin%E3%81%AE%E3%81%84%E3%81%84%E3%81%A8%E3%81%93%E3%82%8Ddata-class/
+
+・KotlinでLoggerの生成を少し楽にした
+https://qiita.com/mumei_himazin/items/df94b3bc9c6112a4125e
+
+・
+
 ■Spring Bootメモ
 ・Spring FrameworkのControllerの基本的なアノテーション
 https://morizyun.github.io/java/spring-framework-controller-annotation.html
+
+・mybatisでstring型を動的パラメータ（${ }）で渡そうとしたらエラー　MyBatisSystemException
+https://ito-u-oti.com/post-270/
+
+・Spring Bootでログを出力する
+https://dev.classmethod.jp/articles/spring-boot_log_output/
+
+・Java Spring Boot JSONの送信と受信のサンプル
+https://itsakura.com/java-springboot-json
+
+
+
+
+■問題解決
+・How to make request body type compatible with RequestInit or BodyInit when using node-fetch?
+https://stackoverflow.com/questions/43997163/how-to-make-request-body-type-compatible-with-requestinit-or-bodyinit-when-using
+
+・React Native fetch “unsupported BodyInit type”
+https://stackoverflow.com/questions/39056125/react-native-fetch-unsupported-bodyinit-type
+
+・Springbootで「application/x-www-form-urlencoded」形式のリクエストを送る＆受け取る
+https://qiita.com/rhirabay/items/776394ceeca09b5f9670
+
+・コンテンツタイプがapplication / x-www-form-urlencodedのHTTP PostリクエストがSpringで機能しない
+https://www.it-swarm.dev/ja/java/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%E3%82%BF%E3%82%A4%E3%83%97%E3%81%8Capplication-xwwwformurlencoded%E3%81%AEhttp-post%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E3%81%8Cspring%E3%81%A7%E6%A9%9F%E8%83%BD%E3%81%97%E3%81%AA%E3%81%84/822505317/
 
 ・mybatisでstring型を動的パラメータ（${ }）で渡そうとしたらエラー　MyBatisSystemException
 https://ito-u-oti.com/post-270/

@@ -93,23 +93,23 @@ export default class Home extends React.Component<HomeProps, {}> {
 
           // 1件INSERT
 
+          // TODO: await fetch呼び出し箇所のメソッド切り出し
+          let date = new Date();
+          let obj = new TestModel01();
+          obj.id = date.getTime();
+          obj.name = String(obj.id).substr(2);
 
-
-          // TODO: あっているか怪しい。いったんform-dataはuninstallした。bodyもオブジェクトで渡したい・・・
-
-
-
-//          let date = new Date();
 //          let formData = new FormData()
 //          formData.append('id', String(date.getTime()));
 //          formData.append('name', date.toString());
           await fetch('http://' + process.env.BACKEND_HOSTNAME + ':8080/sample/add', {
             method: 'post',
             headers: {
-              'content-type': 'application/x-www-form-urlencoded; charset=utf-8',
+              'content-type': 'application/json',
               'Accept': 'application/json'
             },
-            body: JSON.stringify('{"id": "' + String(date.getTime()) + '", "name": "' + date.toString() + '"}')
+//            body: JSON.stringify('{"id": "' + String(date.getTime()) + '", "name": "' + date.toString() + '"}')
+            body : JSON.stringify(obj)
           })
           // 全件SELECT
           const springBootApiResponse = await fetch('http://' + process.env.BACKEND_HOSTNAME + ':8080/sample/getAll')
@@ -136,6 +136,26 @@ export default class Home extends React.Component<HomeProps, {}> {
         }
       }
 
+localApiCallTest() {
+  let date = new Date();
+  let obj = new TestModel01();
+  obj.id = date.getTime();
+  obj.name = String(obj.id).substr(2);
+
+//          let formData = new FormData()
+//          formData.append('id', String(date.getTime()));
+//          formData.append('name', date.toString());
+  fetch('http://' + process.env.BACKEND_HOSTNAME + ':8080/sample/add', {
+    method: 'post',
+    headers: {
+      'content-type': 'application/json',
+      'Accept': 'application/json'
+    },
+//            body: JSON.stringify('{"id": "' + String(date.getTime()) + '", "name": "' + date.toString() + '"}')
+    body : JSON.stringify(obj)
+  })
+}
+
     // getInitialProps()で返した値がコンポーネントにPropsとして渡されてくる。
     // サーバーサイドおよび、クライアントサイドで取得したデータをもとにレンダリング。
     render () {
@@ -146,6 +166,10 @@ export default class Home extends React.Component<HomeProps, {}> {
             {this.props.posts.map((post) => <li key={post.key}>{post.title}</li>)}
             <Link href="/about">
               <a>About Us</a>
+            </Link>
+            <Link href="#">
+              {/* TODO: onClick処理を実行する時にSSR時のSELECT結果が消える件 */}
+              <a onClick={this.localApiCallTest}>ボタン押下処理</a>
             </Link>
           </ul>
         )
