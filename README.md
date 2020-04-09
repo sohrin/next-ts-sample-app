@@ -183,6 +183,10 @@ https://cormorant.hatenablog.com/entry/2018/04/29/002150
 https://www.aruse.net/entry/2019/07/28/112144
 ※dashboardでサブディレクトリのSpring Bootを起動する方法は？？？
 
+
+
+
+
 ■TODO
 ・SPRING-BOOT DASHBOARDでどうやって起動する？
 ・デバッグ起動方法（ひとまずkotlin側にlaunch.jsonを追加してみたが、ターミナルで以下で止まる）
@@ -311,6 +315,26 @@ https://itsakura.com/java-springboot-json
 
 
 
+■CORS
+・Spring MVC で CORS 設定
+https://qiita.com/m_kikuchi/items/df8c070b228df44a5462
+
+・Spring Boot のCORS対策
+https://ti-tomo-knowledge.hatenablog.com/entry/2019/12/15/200327
+
+
+
+
+
+
+
+■Gradle
+・Gradle の compile, api, implementation とかについて
+https://qiita.com/opengl-8080/items/6ad642e0b016465891de
+
+
+
+
 ■問題解決
 ・How to make request body type compatible with RequestInit or BodyInit when using node-fetch?
 https://stackoverflow.com/questions/43997163/how-to-make-request-body-type-compatible-with-requestinit-or-bodyinit-when-using
@@ -327,6 +351,162 @@ https://www.it-swarm.dev/ja/java/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%E
 ・mybatisでstring型を動的パラメータ（${ }）で渡そうとしたらエラー　MyBatisSystemException
 https://ito-u-oti.com/post-270/
 
+
+
+
 ■docker-composeメモ
 ・docker-compose.ymlで.envファイルに定義した環境変数を使う
 https://kitigai.hatenablog.com/entry/2019/05/08/003000
+
+
+
+
+■その他
+・Spring Boot + Amazon Cognito OAuth 2.0 / JWT
+https://gofore.com/en/spring-boot/
+※まずはAuth0からでもいいかも・・・
+※書籍「AWSによるサーバーレスアーキテクチャ」が参考になりそう。
+
+・Kotlin で RESTful API を開発する（Auth0公式ドキュメント）
+https://auth0.com/blog/jp-developing-restful-apis-with-kotlin/
+
+・oauth2_proxy と Auth0 を用いた Nginx のお手軽 OAuth 化
+https://mikan.github.io/2018/05/23/enable-oauth-to-your-nginx-by-oauth2-proxy-and-auth0/
+
+・Spring SecurityでOAuth2サーバを作ってみた
+https://tmegos.hatenablog.jp/entry/spring-boot-spring-security-kotlin-oauth2
+
+
+・Reactアプリにコード自動整形ツールのPrettierを導入する
+https://dev.classmethod.jp/articles/introduce-prettier/
+
+
+・フックの導入
+https://ja.reactjs.org/docs/hooks-intro.html
+
+・NEXT.jsとReact Hooksを使ってTodoアプリを10分で作る
+https://qiita.com/hiraike32/items/71b14755f56208a8a133
+
+
+・GraphQLの全体像とWebApp開発のこれから
+https://qiita.com/saboyutaka/items/171f7382cdf75b67d076
+
+
+■Serverless Framework
+・Serverless Components はオレたちの未来を劇的にスケールさせるか
+https://qiita.com/G-awa/items/04dec937925d2875d320
+
+・Next.jsアプリをLambda@Edgeで超簡単にSSRできるserverless-next.jsのご紹介
+https://qiita.com/fumiki/items/5f4408ce844520a922c2
+
+・Lambda＠Edgeについてまとめる
+https://dev.classmethod.jp/articles/lambda-edge-design-best-practices/
+
+・Lambda@Edge活用例を紹介します - SPA編 -
+https://tech.smartcamp.co.jp/entry/lambda-edge-spa
+
+
+
+
+■Serverless
+・Serverless Components公式
+https://serverless.com/components/
+
+・Nuxt.jsをServerlessでデプロイするにあたってぶつかった４つの壁
+https://qiita.com/Karibash/items/358316e533c6a214b87b
+
+・honerlaw / serverless-fargate-plugin
+https://github.com/honerlaw/serverless-fargate-plugin
+
+・serverless / examples
+https://github.com/serverless/examples
+
+・nathanpeck / aws-cloudformation-fargate
+https://github.com/nathanpeck/aws-cloudformation-fargate
+
+・TypeScript + Serverless + ORM + RoutingMiddlewareを探す旅
+https://cloudpack.media/46011
+
+
+
+■Cloudformation
+・CloudformationでFargateを構築する
+https://dev.classmethod.jp/articles/cloudformation-fargate/
+
+・私的 CloudFormation ベストプラクティス
+http://kizkoh.hatenablog.com/entry/2017/04/25/090000
+
+・WordPressの大きなインフラをkumogataで作ったらめっちゃ楽だった話
+https://www.slideshare.net/HidetakaOkamoto/wordpresskumogata
+
+・【AWS】Stack is not required! CloudFormation支援ツール “kumogata” を試してみました
+https://dev.classmethod.jp/articles/kumogata-tool-for-cloudformation/
+
+・WordPressの大きなインフラをkumogataで作ったらめっちゃ楽だった話
+https://www.slideshare.net/HidetakaOkamoto/wordpresskumogata
+
+・kumogata / kumogata2
+https://github.com/kumogata/kumogata2
+
+・私はこれでJSONをやめました〜あるいはAWSの設定をコード化するとはどういうことか〜
+https://www.slideshare.net/marcyterui/jsonaws
+
+・【AWS】CloudFormationのベストプラクティスを読んで
+http://yamano3201.hatenablog.jp/entry/2016/05/29/122238
+
+
+
+
+■Terraform
+・実環境にTerraform導入したら驚いた
+https://www.slideshare.net/akuwano/terraform-47221901
+
+
+
+■ECS
+・EC2 Container Service(ECS)を管理して、Blue-Green Deploymentを実現するツールを書いた
+https://blog.stormcat.io/post/entry/2015/07/22/130000/
+
+・ecs-deployを使ったAmazon ECSへのデプロイの裏側
+https://sandragon.hatenablog.com/entry/2019/04/14/211209
+
+・ECS運用のノウハウ
+https://qiita.com/naomichi-y/items/d933867127f27524686a
+
+・Dockerコンテナデプロイサービスの比較 (Beanstalk Multi-container Docker/ECS)
+https://qiita.com/naomichi-y/items/5830b851e8028b11cf4e
+
+・
+
+
+■素敵記事
+・ロマサガRS䛾大規模負荷を処理するAmazon ECS & Docker運用知見
+https://pages.awscloud.com/rs/112-TZM-766/images/I3-04.pdf
+→fluentd、datadog、locust
+→CloudFormation/kumogata、Terraform、Serverless Componentsのどれかに手を付けるか・・・
+→負荷テスト
+→ECSスケーリング
+→デリバリーパイプライン
+→サーバレスバッチ
+→自動復旧
+
+
+
+■その他
+・大規模ゲーム開発で存在感を高めるErlang/Elixir ─ Nintendo Switch™とロマサガRSの事例から
+https://employment.en-japan.com/engineerhub/entry/2019/08/01/103000
+
+・ロマサガRS における Elixir サーバー開発実践 ~生産性を上げてゲームの面白さに注力~
+https://speakerdeck.com/elixirfest/romasakars-niokeru-elixir-sahakai-fa-shi-jian-sheng-chan-xing-woshang-ketekemufalsemian-bai-sanizhu-li
+
+・Twelve-Factor App
+https://12factor.net/ja/
+
+・AWSでサーバレスな定期バッチ環境を作るには結局どれ使えばいいの？（Lambda vs Fargate vs Batch）
+https://qiita.com/kazuktym/items/0ecc1dbf98c3c3623473
+
+
+
+
+
+
