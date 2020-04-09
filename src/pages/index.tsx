@@ -68,10 +68,19 @@ export default class Home extends React.Component<HomeProps, {}> {
 
     static async getInitialProps({ Component, router, ctx, req }) {
         try {
+          let backendUrl;
+// TODO: ポート番号も環境変数化する？
+console.log(process.env.BACKEND_DOCKER_HOSTNAME);
+let backendUrlSsr = "http://" + process.env.BACKEND_DOCKER_HOSTNAME + ":8080";
+let backendUrlBrower = "http://" + process.env.BACKEND_HOSTNAME_AND_PORT;
+console.log(backendUrlSsr);
+console.log(backendUrlBrower);
           if (req) {
             console.log("■■■■■SSR getInitialProps() BEGIN.");
+            backendUrl = backendUrlSsr;
           } else {
             console.log("■■■■■browser getInitialProps() BEGIN.");
+            backendUrl = backendUrlBrower;
           }
           // TypeScriptのAPIからデータを取得
           // ※Next.jsのAPIの動作確認用コード。
@@ -86,14 +95,9 @@ export default class Home extends React.Component<HomeProps, {}> {
 //          dbAccessTest();
           
           // Spring BootのAPIからデータを取得
-          // ※DBアクセスはバックエンドAPIを経由して行うこと。その方式であればSSRでもブラウザでも動く。
-
-          // TODO: BACKEND_HOSTNAMEにポートも含めるべき（必要な場合のみポート指定できるように）
-          // TODO: コンテナ間通信ができるSSR側でもインターネット経由とすべき？そのためにはreqありなしで要ホスト名切り替え
-
+          // ※DBアクセスはバックエンドAPIを経由して行うこととする。その方式であればSSRでもブラウザでも動く。
           // 1件INSERT
-
-          // TODO: await fetch呼び出し箇所のメソッド切り出し
+         // TODO: await fetch呼び出し箇所のメソッド切り出し
           let date = new Date();
           let obj = new TestModel01();
           obj.id = date.getTime();
@@ -102,7 +106,7 @@ export default class Home extends React.Component<HomeProps, {}> {
 //          let formData = new FormData()
 //          formData.append('id', String(date.getTime()));
 //          formData.append('name', date.toString());
-          await fetch('http://' + process.env.BACKEND_HOSTNAME + ':8080/sample/add', {
+          await fetch(backendUrl + "/sample/add", {
             method: 'post',
             headers: {
               'content-type': 'application/json',
@@ -112,7 +116,7 @@ export default class Home extends React.Component<HomeProps, {}> {
             body : JSON.stringify(obj)
           })
           // 全件SELECT
-          const springBootApiResponse = await fetch('http://' + process.env.BACKEND_HOSTNAME + ':8080/sample/getAll')
+          const springBootApiResponse = await fetch(backendUrl + "/sample/getAll")
           const springBootApiResponseData = await springBootApiResponse.json()
           console.log(springBootApiResponseData);
           
@@ -141,11 +145,13 @@ localApiCallTest() {
   let obj = new TestModel01();
   obj.id = date.getTime();
   obj.name = String(obj.id).substr(2);
-
+// TODO: ポート番号も環境変数化する？
+let backendUrlSsr = "http://" + process.env.BACKEND_DOCKER_HOSTNAME + ":8080";
+let backendUrlBrower = "http://" + process.env.BACKEND_HOSTNAME_AND_PORT;
 //          let formData = new FormData()
 //          formData.append('id', String(date.getTime()));
 //          formData.append('name', date.toString());
-  fetch('http://' + process.env.BACKEND_HOSTNAME + ':8080/sample/add', {
+  fetch(backendUrlBrower + "/sample/add", {
     method: 'post',
     headers: {
       'content-type': 'application/json',

@@ -17,7 +17,7 @@ export default class TypeOrmUtils {
         let connection = createConnection({
             "name": "default",
             "type": "postgres",
-            "host": process.env.POSTGRES_HOSTNAME,
+            "host": process.env.POSTGRES_DOCKER_HOSTNAME,
             "port": 5432,
             "username": "appuser",
             "password": "apppass",

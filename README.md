@@ -326,3 +326,7 @@ https://www.it-swarm.dev/ja/java/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%E
 
 ・mybatisでstring型を動的パラメータ（${ }）で渡そうとしたらエラー　MyBatisSystemException
 https://ito-u-oti.com/post-270/
+
+■docker-composeメモ
+・docker-compose.ymlで.envファイルに定義した環境変数を使う
+https://kitigai.hatenablog.com/entry/2019/05/08/003000
