@@ -10,6 +10,7 @@ import com.sanyu_i.sisdiv3.n_study.ntsa.kotlinbackend.api.sample.dataset.Sample
 @RestController
 @RequestMapping("/sample")
 class SampleApiController {
+    
     companion object:KtLog()
 
     @Autowired

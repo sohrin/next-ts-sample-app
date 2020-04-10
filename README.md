@@ -297,7 +297,11 @@ http://blog.techfirm.co.jp/2015/10/21/kotlin%E3%81%AE%E3%81%84%E3%81%84%E3%81%A8
 ・KotlinでLoggerの生成を少し楽にした
 https://qiita.com/mumei_himazin/items/df94b3bc9c6112a4125e
 
-・
+・Kotlinにおける継承、オーバーライド、抽象クラス、インタフェースとスマートキャスト
+https://www.atmarkit.co.jp/ait/articles/1804/24/news008.html
+
+
+
 
 ■Spring Bootメモ
 ・Spring FrameworkのControllerの基本的なアノテーション
@@ -312,12 +316,15 @@ https://dev.classmethod.jp/articles/spring-boot_log_output/
 ・Java Spring Boot JSONの送信と受信のサンプル
 https://itsakura.com/java-springboot-json
 
+・Springの@PropertySourceと@Valueをつかってみる
+https://qiita.com/toshiro3/items/56a4d03658d31ef1f939
 
 
 
 ■CORS
 ・Spring MVC で CORS 設定
 https://qiita.com/m_kikuchi/items/df8c070b228df44a5462
+→いったんこちらを採用
 
 ・Spring Boot のCORS対策
 https://ti-tomo-knowledge.hatenablog.com/entry/2019/12/15/200327
