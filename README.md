@@ -582,8 +582,53 @@ https://qiita.com/kazuktym/items/0ecc1dbf98c3c3623473
 ・[Others] Infrastructure as Codeに疲れたので、僕たちが本来やりたかったことを整理する
 https://jawsdays2019.jaws-ug.jp/session/1119/
 
+・"are too open."がWindows 10 の ssh クライアントで表示される
+http://tooljp.com/qa/ssh-are-too-open-error-2ED3.html
+
+・Windows版VSCodeで秘密鍵の位置に関係なくSSHログインするには
+https://qiita.com/mindwood/items/ddae674a0694402f22a6
+
+・Windows10に於けるSSH公開鍵認証秘密鍵の置き場所
+http://systemconcept.co.jp/blog/?p=1343
 
 
 
+■AWSのネットワーク関連
+・初めてAWSで環境構築した際に参考にしたページメモ
+https://qiita.com/mt2/items/b39457b35210c7e856fc
+
+・AWS勉強記録（ネットワーク構築-VPC-）
+https://note.com/kawa1228/n/n62b231433668
+
+・AWS習得編 Amazon Web Service 基礎からのネットワーク&サーバー構築 Chapter2
+https://note.com/el93019205/n/n56c4c69150f1
+
+・【AWS VPC入門】2.EC2/Internet Gateway/Route Table
+https://qiita.com/_Yasuun_/items/fc6f401eeaf9a3cb7b2c
+
+・AWS CDK入門としてネットワークリソースを作ってみた
+https://dev.classmethod.jp/articles/aws-cdk-intro-nw/
+
+・CloudFormationでVPCNetworkを作る
+https://qiita.com/shinon_uk/items/13bfd0b5908d01829999
 
 
+
+■AWS CDK参考サイト
+・AWSCDKでVPCをデプロイする
+https://qiita.com/is_ryo/items/66dfe6c4b6dda4bd1eeb
+
+・AWS CDK が GA! さっそく TypeScript でサーバーレスアプリケーションを構築するぜ【 Cloud Development Kit 】
+https://dev.classmethod.jp/articles/aws-cdk-ga-serverless-application/
+
+・AWS Cloud Development Kit(AWS CDK)でEC2インスタンスを立ち上げてみる
+https://qiita.com/kai_kou/items/e35fd8c6af7dff9f2624
+
+・AWS Cloud Development Kit (AWS CDK) を使って VPC 環境と EC2 インスタンスを作る
+https://qiita.com/ytabira/items/53f10f620befeb3d00b8
+
+・AWS CDKとTypeScriptで環境構築
+https://it-akumi.hatenablog.com/entry/2019/08/26/204310
+
+・AWS CDK を使って簡単に ECS(Fargate) 環境を構築する方法
+https://qiita.com/ytanaka3/items/e755ff4551f01f76c303
