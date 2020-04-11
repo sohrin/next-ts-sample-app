@@ -463,10 +463,77 @@ http://yamano3201.hatenablog.jp/entry/2016/05/29/122238
 
 
 
+■AWS CDK
+・ソフトウェア開発者のためのAWS環境構築フレームワーク AWS Cloud Development Kit (CDK)
+https://pages.awscloud.com/rs/112-TZM-766/images/B-3.pdf
+
+・公式Getting Started
+https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html
+
+・AWS CDK が GA! さっそく TypeScript でサーバーレスアプリケーションを構築するぜ【 Cloud Development Kit 】
+https://dev.classmethod.jp/articles/aws-cdk-ga-serverless-application/
+
+・Infrastructure as CodeのTips【Terraform/CDK/Cloudformation】
+https://qiita.com/KsntsTt/items/5c4fe0d28b5bda698756
+
+・AWS-CDK for TypeScriptで色んなサービスをデプロイする
+https://qiita.com/is_ryo/items/f04e05768c91c21f3699
+
+・AWS CDKを使えばTypeScriptでAWSインフラを定義できるらしい
+https://qiita.com/ooooouchi/items/fbf9977c1a1ad47f5405
+
+・AWS Cloud Development Kit(AWS CDK)でEC2インスタンスを立ち上げてみる
+https://qiita.com/kai_kou/items/e35fd8c6af7dff9f2624
+
+・AWS CDK を使って簡単に ECS(Fargate) 環境を構築する方法
+https://qiita.com/ytanaka3/items/e755ff4551f01f76c303
+
+・AWS CDKでのFargateデプロイ
+https://qiita.com/nyasba/items/48bf95ee66794a608822
+
+・AWS CDKを使ったAWS Fargate Serviceの構築
+https://qiita.com/yacchin/items/e2c48984a3a68e77c3c5
+
+・SAM meets CDK？
+https://qiita.com/yhsmt/items/ebdb561e45c3cedf8f49
+
+
+
+
+
+
+■Pulumi（WebホスティングなのでいったんはAWS CDKのほうがよさそう）
+・PulumiにおけるServerlessアプリケーション開発
+https://engineer.recruit-lifestyle.co.jp/techblog/2019-12-21-serverless-programming-by-pulumi/
+
+・これが次世代プロビジョニングツールの実力か！？ PulumiでAWSリソースを作成してみた
+https://dev.classmethod.jp/articles/pulumi-aws/
+
+
+
+
+
+
+
 
 ■Terraform
+・Terraformで構築するAWS
+https://y-ohgi.com/introduction-terraform/first/about/
+
+・10分で理解するTerraform
+https://qiita.com/Chanmoro/items/55bf0da3aaf37dc26f73
+
+・TerraformとCodeDeployでイミュータブルなBlue/Greenデプロイ環境を構築する
+https://dev.classmethod.jp/articles/immutable-blue-green-deployment-with-terraform-and-codedeploy/
+
 ・実環境にTerraform導入したら驚いた
 https://www.slideshare.net/akuwano/terraform-47221901
+
+・TerraformとAtlasとGitHubを使ってインフラを構築、自動化してみた話
+https://techblog.zozo.com/entry/terraform
+
+・Terraform + GitHub + CircleCI + Atlasを利用してAWSの操作を自動化した
+https://blog.glidenote.com/blog/2015/02/18/terraform-github-circleci-atlas-aws/
 
 
 
@@ -511,6 +578,9 @@ https://12factor.net/ja/
 
 ・AWSでサーバレスな定期バッチ環境を作るには結局どれ使えばいいの？（Lambda vs Fargate vs Batch）
 https://qiita.com/kazuktym/items/0ecc1dbf98c3c3623473
+
+・[Others] Infrastructure as Codeに疲れたので、僕たちが本来やりたかったことを整理する
+https://jawsdays2019.jaws-ug.jp/session/1119/
 
 
 
