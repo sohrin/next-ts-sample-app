@@ -50,6 +50,6 @@ tasks.withType<KotlinCompile> {
 
 jib {
   to {
-    image = "next-ts-sample-app_kotlin-backend"
+    image = (System.getenv("CONTAINER_NAME_PREFIX") ?: "") + "next-ts-sample-app_kotlin-backend"
   }
 }

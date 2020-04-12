@@ -300,6 +300,9 @@ https://qiita.com/mumei_himazin/items/df94b3bc9c6112a4125e
 ・Kotlinにおける継承、オーバーライド、抽象クラス、インタフェースとスマートキャスト
 https://www.atmarkit.co.jp/ait/articles/1804/24/news008.html
 
+・Kotlinでのnullの基本的な扱いかた
+https://re-engines.com/2018/11/01/3088/
+
 
 
 
@@ -618,6 +621,15 @@ https://qiita.com/msyk_tym/items/e3bbed8d382d06a6a329
 ・AWSでEC2インスタンス作成してElasticIPを割り当てようとしたら怒られた話
 https://qiita.com/C910/items/3c9706b051cb8607c203
 
+・AWS CDKで、NATゲートウェイの数を抑制する
+https://dev.classmethod.jp/articles/aws-cdk-no-natgw/
+
+・AWS CDKなら、たった1行で高可用なVPCを構築できる
+https://qiita.com/nasuvitz/items/b31a2b7b492082a949b6
+
+・AWS CDKでつまづいたところ3選
+https://tech.actindi.net/2019/12/13/115639
+
 
 
 ■AWS CDK参考サイト
@@ -660,3 +672,37 @@ https://dev.classmethod.jp/articles/aws-cdk-python-ec2/
 https://www.skyarch.net/blog/?p=17254
 https://www.techscore.com/blog/2019/12/18/aws-cdk/
 https://dev.classmethod.jp/articles/aws-cdk-construct-explanation/
+https://dev.classmethod.jp/articles/aws-cdk-getting-ecs/
+https://qiita.com/nakaken0629/items/1dfbc5c0b72d01abdba6
+https://cloudpack.media/48912
+https://qiita.com/tyoshitake/items/c5176c0ef4de8d7cf5d8
+
+
+■Gradle
+・build.gradleからの環境変数の参照
+http://horie1024.hatenablog.com/entry/2015/03/16/155309
+
+
+■docker-compose
+・Docker Composeでビルド時に任意のイメージ名を指定する方法
+https://amaya382.hatenablog.jp/entry/2017/04/03/034002
+
+
+■コマンドメモ
+・docker-composeビルド（ローカル）
+set CONTAINER_NAME_PREFIX=
+cd kotlin-backend 
+gradlew jibDockerBuild
+cd ..
+docker-compose down && docker-compose build --no-cache && docker-compose up -d && docker-compose ps && docker-compose logs -f
+
+・docker-composeビルド（ECS）
+set CONTAINER_NAME_PREFIX=ecs-
+cd kotlin-backend 
+gradlew jibDockerBuild
+cd ..
+docker-compose -f docker-compose.ecs.yml build --no-cache
+
+
+
+

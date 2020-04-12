@@ -4,5 +4,6 @@
 # Dependency directories
 node_modules/
 
-# kotlin-backend
+# sub project
 kotlin-backend/
+aws-cdk/
