@@ -612,6 +612,12 @@ https://dev.classmethod.jp/articles/aws-cdk-intro-nw/
 ・CloudFormationでVPCNetworkを作る
 https://qiita.com/shinon_uk/items/13bfd0b5908d01829999
 
+・ElasticIPが足りない場合の上限値変更方法
+https://qiita.com/msyk_tym/items/e3bbed8d382d06a6a329
+
+・AWSでEC2インスタンス作成してElasticIPを割り当てようとしたら怒られた話
+https://qiita.com/C910/items/3c9706b051cb8607c203
+
 
 
 ■AWS CDK参考サイト
@@ -632,3 +638,25 @@ https://it-akumi.hatenablog.com/entry/2019/08/26/204310
 
 ・AWS CDK を使って簡単に ECS(Fargate) 環境を構築する方法
 https://qiita.com/ytanaka3/items/e755ff4551f01f76c303
+
+・How to add an Internet Gateway to a VPC using AWS CDK?
+https://stackoverflow.com/questions/58812479/how-to-add-an-internet-gateway-to-a-vpc-using-aws-cdk
+
+・AWS CDK と3つのテスト
+https://qiita.com/it-akumi/items/df57cc5d28a3c7b50f3a
+
+・AWS CDK と Typescript で EC2 を構築してみる。
+https://qiita.com/go-go-megaman/items/e15cab5a2882d954f007
+※CDK の認証とaws-mfa
+
+・How to get instance ID of created EC2 instance
+https://github.com/aws/aws-cdk/issues/3225
+
+
+
+
+・その他サイト
+https://dev.classmethod.jp/articles/aws-cdk-python-ec2/
+https://www.skyarch.net/blog/?p=17254
+https://www.techscore.com/blog/2019/12/18/aws-cdk/
+https://dev.classmethod.jp/articles/aws-cdk-construct-explanation/
