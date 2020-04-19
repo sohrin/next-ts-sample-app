@@ -25,6 +25,7 @@
     "@aws-cdk/aws-ecr": "^1.32.2",
     "@aws-cdk/aws-ecs": "^1.32.2",
     "@aws-cdk/aws-ecs-patterns": "^1.32.2",
+    "@aws-cdk/aws-rds": "^1.32.2",
     "@aws-cdk/core": "1.32.2",
     "cdk-ec2-key-pair": "^1.1.0",
     "source-map-support": "^0.5.16"

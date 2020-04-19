@@ -8,9 +8,8 @@ export class AwsCdkStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // TODO: アカウント名の環境変数化 process.env.CDK_DEFAULT_ACCOUNT process.env.CDK_DEFAULT_REGION
-    // TODO: 許可するcidrIpを
-    const sshAllowCidrIp = "XXX.XXX.XXX.XXX/32" // this.node.tryGetContext('cidr_ip'); // TODO: --contextで設定
+    // TODO: 許可するcidrIpを「this.node.tryGetContext('cidr_ip')」と「--context」で設定
+    const sshAllowCidrIp = "XXX.XXX.XXX.XXX/32" // 
     /*
     ■デプロイ/SSH接続手順
     [1]：aws-cdk直下に移動

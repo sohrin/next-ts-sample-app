@@ -258,6 +258,11 @@ https://qiita.com/gcyata/items/342073fa7607fd4082bd
 ・Kotlin + Spring BootでREST APIを作ってみる
 https://qiita.com/ARBALEST000/items/0e0ef5074ae110120ac7
 
+・初心者がGoでTODOアプリ用のREST API serverを作った話
+https://qiita.com/katuo0011/items/bc2e1929fde394da8579
+※Swaggerのdocker-compose記述がある
+
+
 ■TODO（vscode＋Spring Boot）
 ・Spring Boot in Visual Studio Code
 https://code.visualstudio.com/docs/java/java-spring-boot
@@ -466,6 +471,10 @@ http://yamano3201.hatenablog.jp/entry/2016/05/29/122238
 
 
 
+
+
+
+
 ■AWS CDK
 ・ソフトウェア開発者のためのAWS環境構築フレームワーク AWS Cloud Development Kit (CDK)
 https://pages.awscloud.com/rs/112-TZM-766/images/B-3.pdf
@@ -499,6 +508,9 @@ https://qiita.com/yacchin/items/e2c48984a3a68e77c3c5
 
 ・SAM meets CDK？
 https://qiita.com/yhsmt/items/ebdb561e45c3cedf8f49
+
+・AWSのインフラはプログラミングコードで構築！AWS Cloud Development Kit 入門
+https://www.slideshare.net/AmazonWebServicesJapan/awsaws-cloud-development-kit
 
 
 
@@ -594,6 +606,8 @@ https://qiita.com/mindwood/items/ddae674a0694402f22a6
 ・Windows10に於けるSSH公開鍵認証秘密鍵の置き場所
 http://systemconcept.co.jp/blog/?p=1343
 
+・
+
 
 
 ■AWSのネットワーク関連
@@ -664,6 +678,24 @@ https://qiita.com/go-go-megaman/items/e15cab5a2882d954f007
 ・How to get instance ID of created EC2 instance
 https://github.com/aws/aws-cdk/issues/3225
 
+・Creating an AWS Fargate Service Using the AWS CDK
+https://docs.aws.amazon.com/cdk/latest/guide/ecs_example.html
+
+・AWS Fargate かんたんデプロイ選⼿権
+https://pages.awscloud.com/rs/112-TZM-766/images/A-1.pdf
+
+・AWS CDKを使ってECS(Fargate起動タイプ)を構築する
+https://miyahara.hikaru.dev/posts/20191205/
+
+・AWS CDK を使って簡単に ECS(Fargate) 環境を構築する方法
+https://qiita.com/ytanaka3/items/e755ff4551f01f76c303
+
+・ECS(Fargate)のServiceをCDKで構築・デプロイしてみた
+https://dev.classmethod.jp/articles/ecs-deploy-using-cdk/
+
+
+
+
 
 
 
@@ -696,13 +728,19 @@ gradlew jibDockerBuild
 cd ..
 docker-compose down && docker-compose build --no-cache && docker-compose up -d && docker-compose ps && docker-compose logs -f
 
-・docker-composeビルド（ECS）
+・ECSデプロイ
 set CONTAINER_NAME_PREFIX=ecs-
 cd kotlin-backend 
 gradlew jibDockerBuild
 cd ..
 docker-compose -f docker-compose.ecs.yml build --no-cache
-
+set CDK_DEFAULT_ACCOUNT=629540162457
+set CDK_DEFAULT_REGION=ap-northeast-1
+cd aws-cdk
+npm run build
+cdk ls -l
+cdk deploy
+cdk destroy
 
 
 

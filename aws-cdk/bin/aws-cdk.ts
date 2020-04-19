@@ -6,7 +6,7 @@ import { AwsCdkStack } from '../lib/aws-cdk-stack';
 const app = new cdk.App();
 new AwsCdkStack(app, 'AwsCdkStack', {
     env: {
-        account: "XXXXXXXXXXXXXX",
-        region: "ap-northeast-1"
+        account: process.env.CDK_DEFAULT_ACCOUNT,
+        region: process.env.CDK_DEFAULT_REGION
     }
 });

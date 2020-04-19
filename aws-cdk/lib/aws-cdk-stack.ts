@@ -2,6 +2,7 @@ import * as cdk from '@aws-cdk/core';
 import ec2 = require("@aws-cdk/aws-ec2");
 import ecs = require("@aws-cdk/aws-ecs");
 import ecs_patterns = require("@aws-cdk/aws-ecs-patterns");
+import rds = require("@aws-cdk/aws-rds");
 // TODO: 使わなかったら後でnpm uninstall --saveする
 import ecr = require("@aws-cdk/aws-ecr");
 
@@ -9,30 +10,25 @@ export class AwsCdkStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // TODO: アカウント名の環境変数化 process.env.CDK_DEFAULT_ACCOUNT process.env.CDK_DEFAULT_REGION
+    // TODO: 外部注入値を「this.node.tryGetContext('key');」と「--context」で設定
 
-    // // TODO: 外部注入値を「this.node.tryGetContext('key');」と「--context」で設定
-    // const sshAllowCidrIp = "XXX.XXX.XXX.XXX/32"
 
-    // /*
-    // ■デプロイ/SSH接続手順
-    // [1]：aws-cdk直下に移動
-    // [2]：npm run build
-    // [3]：cdk deploy
-    // [4]：aws secretsmanager get-secret-value --secret-id ec2-private-key/next-ts-sample-app-KeyPair --query SecretString --output text > next-ts-sample-app-key-pair.pem
-    // [5]：cdk deploy完了時に表示されるElastic IP、秘密鍵、ec2-userでSSHログイン
-    // */
-
-    // // VPCの作成
-    // // https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-ec2.Vpc.html
-    // const vpc = new ec2.Vpc(this, "next-ts-sample-app-VPC", {
-    //   cidr: "10.0.0.0/16",
-    //   defaultInstanceTenancy: ec2.DefaultInstanceTenancy.DEFAULT,
-    //   enableDnsSupport: true,
-    //   enableDnsHostnames: true,
-    //   // 空を指定しないといくつかサブネットが作られてしまう
-    //   subnetConfiguration: []
-    // })
+    // VPCの作成
+    // https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-ec2.Vpc.html
+    const vpc = new ec2.Vpc(this, "next-ts-sample-app-VPC", {
+      cidr: "10.0.0.0/16",
+      defaultInstanceTenancy: ec2.DefaultInstanceTenancy.DEFAULT,
+      enableDnsSupport: true,
+      enableDnsHostnames: true,
+      // 空を指定しないといくつかサブネットが作られてしまう
+      subnetConfiguration: [
+        // TODO: VPCでサブネットを作るように変えることで、アプリへのアクセスに影響がないか心配
+        {
+          name: 'next-ts-sample-app-Subnet-DBCluster',
+          subnetType: ec2.SubnetType.PUBLIC // TODO: ゆくゆくはec2.SubnetType.ISOLATED
+        }
+      ]
+    })
   
     // // サブネットの作成
     // // https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-ec2.Subnet.html
@@ -66,29 +62,59 @@ export class AwsCdkStack extends cdk.Stack {
     //   routerId: internetGateway.ref
     // })
 
-//    // ECRリポジトリの作成
-//    const repository = new ecr.Repository(this, 'next-ts-sample-app-ECRRepository');
 
-    // ECSクラスタの作成
-    const cluster = new ecs.Cluster(this, 'next-ts-sample-app-Cluster', {
-      // 自前でVPCを作らずデフォルトに任せる
-//      vpc,
-      clusterName: "next-ts-sample-app-RouteTableCluster"
-    });
 
-    // Create a load-balanced Fargate service and make it public
-    // https://docs.aws.amazon.com/cdk/latest/guide/ecs_example.html  
-    // ※以下は情報が少し古いがほとんど同じことをやってる。
-    // https://dev.classmethod.jp/articles/aws-cdk-getting-ecs/
-    new ecs_patterns.ApplicationLoadBalancedFargateService(this, "MyFargateService", {
-      cluster: cluster, // Required
-      cpu: 512, // Default is 256
-      desiredCount: 6, // Default is 1
-      // いったんDockerHubからイメージを取得
-      taskImageOptions: { image: ecs.ContainerImage.fromRegistry('amazon/amazon-ecs-sample') },
-      memoryLimitMiB: 2048, // Default is 512
-      publicLoadBalancer: true // Default is false
-    });
+
+
+
+// //    // ECRリポジトリの作成
+// //    const repository = new ecr.Repository(this, 'next-ts-sample-app-ECRRepository');
+
+//     // ECSクラスタの作成
+//     const cluster = new ecs.Cluster(this, 'next-ts-sample-app-Cluster', {
+//       // 自前でVPCを作らずデフォルトに任せる
+// //      vpc,
+//       clusterName: "next-ts-sample-app-RouteTableCluster"
+//     });
+
+//     // Create a load-balanced Fargate service and make it public
+//     // https://docs.aws.amazon.com/cdk/latest/guide/ecs_example.html  
+//     // ※以下は情報が少し古いがほとんど同じことをやってる。
+//     // https://dev.classmethod.jp/articles/aws-cdk-getting-ecs/
+//     new ecs_patterns.ApplicationLoadBalancedFargateService(this, "MyFargateService", {
+//       cluster: cluster, // Required
+//       cpu: 512, // Default is 256
+//       desiredCount: 6, // Default is 1
+//       // いったんDockerHubからイメージを取得
+//       taskImageOptions: { image: ecs.ContainerImage.fromRegistry('amazon/amazon-ecs-sample') },
+//       memoryLimitMiB: 2048, // Default is 512
+//       publicLoadBalancer: true // Default is false
+//     });
+
+    const db = new rds.DatabaseCluster(this, 'next-ts-sample-app-DBCluster', {
+      engine: rds.DatabaseClusterEngine.AURORA_POSTGRESQL,
+      engineVersion: '10.7',
+      instances: 1,
+      masterUser: {
+        username: 'digdag',
+      },
+      defaultDatabaseName: "appdb",
+//      port: dbPort,
+      instanceProps: {
+        instanceType: ec2.InstanceType.of(ec2.InstanceClass.R5, ec2.InstanceSize.LARGE),
+        vpc: vpc,
+        vpcSubnets: {
+          subnetType: ec2.SubnetType.PUBLIC // TODO: ゆくゆくはec2.SubnetType.ISOLATED
+        }
+      },
+      parameterGroup: new rds.ClusterParameterGroup(this, 'next-ts-sample-app-DBClusterPArameterGroup', {
+        family: 'aurora-postgresql10',
+        parameters: {
+          application_name: 'next-ts-sample-app',
+        }
+      }),
+      removalPolicy: cdk.RemovalPolicy.DESTROY // TODO: for test
+    })
     
 //     // キーペアの作成
 //     // CDK SSM Document：https://awscdk.io/packages/cdk-ec2-key-pair@1.1.0/#/
