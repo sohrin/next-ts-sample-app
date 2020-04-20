@@ -62,6 +62,12 @@ Next.js(TypeScript)のサンプルプロジェクトです。
 ## トラブルシューティングメモ
 - .dockerignoreファイルのコメント中に日本語があると、ファイルがUTF-8でも文字コードエラーが発生する。
 
+## TODO
+- 4/6に間違えて端末時間を変更してPUSHした4/20のコミットログを消したい（内容は無かったことにしたくない）。以下を実行したが、4/6で改めてコミット・プッシュされた後、4/20分も残っている
+https://blog.zzzmisa.com/git_commit_date/
+https://qiita.com/snct_hu/items/971d512c26dd8b3a3b3c
+
+
 ## その他メモ
 - mdファイルのプレビュー(vscode)：ctrl + k -> v
 - マークダウンのチートシート：https://gist.github.com/mignonstyle/083c9e1651d7734f84c99b8cf49d57fa
