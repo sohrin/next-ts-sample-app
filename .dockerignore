@@ -4,5 +4,5 @@
 # Dependency directories
 node_modules/
 
-# 個別にイメージをビルドするのでNext.jsのDockerビルド時は除外
+# kotlin-backend
 kotlin-backend/
