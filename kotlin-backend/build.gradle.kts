@@ -50,6 +50,6 @@ tasks.withType<KotlinCompile> {
 
 jib {
   to {
-    image = (System.getenv("CONTAINER_NAME_PREFIX") ?: "") + "next-ts-sample-app_kotlin-backend"
+    image = (System.getenv("DOCKER_REGISTRY") ?: "") + "/" + "next-ts-sample-app_kotlin-backend" + (System.getenv("DOCKER_REPOSITORY_SUFFIX") ?: "")
   }
 }

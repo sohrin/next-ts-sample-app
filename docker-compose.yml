@@ -1,4 +1,4 @@
-version: '3'
+version: '3.3'
 services:
   nginx:
     build:
@@ -6,6 +6,7 @@ services:
       dockerfile: ./Dockerfile
       args:
         EXPRESS_DOCKER_HOSTNAME: ${EXPRESS_DOCKER_HOSTNAME}
+    image: ${DOCKER_REGISTRY}/next-ts-sample-app_nginx${DOCKER_REPOSITORY_SUFFIX}
     container_name: next-ts-sample-app_nginx
     ports:
       - "80:80"
@@ -13,6 +14,7 @@ services:
     build:
       context: ./
       dockerfile: ./docker/express/Dockerfile
+    image: ${DOCKER_REGISTRY}/next-ts-sample-app_express${DOCKER_REPOSITORY_SUFFIX}
     container_name: next-ts-sample-app_express
     working_dir: /src
     command: [sh, -c, npm install && npm run build && npm run start]
@@ -21,6 +23,7 @@ services:
   # MEMO: Amazon RDS/Auroraを利用する場合はコメントアウトし.envの接続先を変更
   postgres:
     build: ./docker/postgres/
+    image: ${DOCKER_REGISTRY}/next-ts-sample-app_postgres${DOCKER_REPOSITORY_SUFFIX}
     container_name: next-ts-sample-app_postgres
     ports:
       - "55432:5432"
@@ -28,7 +31,7 @@ services:
       # TODO: envファイルに外出ししたほうがいいかも
       POSTGRES_PASSWORD: postgres
   kotlin-backend:
-    image: next-ts-sample-app_kotlin-backend
+    image: ${DOCKER_REGISTRY}/next-ts-sample-app_kotlin-backend${DOCKER_REPOSITORY_SUFFIX}
     container_name: next-ts-sample-kotlin-backend
     ports:
       - "8080:8080"

@@ -120,6 +120,9 @@ https://qiita.com/Yuki10/items/aef152f300a500b85725
 https://qiita.com/rubytomato@github/items/daa723db5deffc908df7
 ※未実施
 
+・Kotlin + Spring BootでDBキャッシュをRedisでやってみる
+https://qiita.com/syumiwohossu/items/3139e14ca995027c8fdf
+
 
 
 ## メモ書き（Rust）
@@ -694,6 +697,14 @@ https://qiita.com/ytanaka3/items/e755ff4551f01f76c303
 https://dev.classmethod.jp/articles/ecs-deploy-using-cdk/
 
 
+■JavaScript
+・4歳娘「パパ、懐かしいJavaScript書いてるね！」
+https://qiita.com/Yametaro/items/70e7878c5ea51788b643
+
+・4歳娘「パパ、constしか使わないで？」
+https://qiita.com/Yametaro/items/17f5a0434afa9b88c3b1
+
+
 
 
 
@@ -715,27 +726,145 @@ https://qiita.com/tyoshitake/items/c5176c0ef4de8d7cf5d8
 http://horie1024.hatenablog.com/entry/2015/03/16/155309
 
 
+
+■npm、yarn
+・あなたがnpm installをしてはいけない時
+https://qiita.com/jigengineer/items/2b15797b850179cb8be0
+
+・npmから乗り換えてわかったYarnの4つのメリット
+https://qiita.com/tonkotsuboy_com/items/0242928ab32794d11f76
+
+
 ■docker-compose
 ・Docker Composeでビルド時に任意のイメージ名を指定する方法
 https://amaya382.hatenablog.jp/entry/2017/04/03/034002
 
 
+
+■RDS
+・【AWS】知識ゼロから理解するRDS超入門
+https://miyabi-lab.space/blog/31
+
+
+
+
+
+■kubernetes
+・kubernetesのwindows環境構築
+https://qiita.com/souenxx/items/db686e7df2e55f73a901
+
+・Windows10にDocker for WindowsでKubernetesを使ってみる
+https://qiita.com/tnagano1981/items/7a4a7410a2123edfaa23
+
+・kompose を使って kubernetes 上で docker-compose してみる
+https://hawksnowlog.blogspot.com/2018/03/kubernetes-with-kompose.html
+※以下を実施
+kompose convert -f docker-compose.yml
+※以下を実施したが、kubernetesがbuildに対応していないため、buildイメージをDocker Repositoryに登録する必要がある
+kompose up -f docker-compose.yml
+
+・Docker ComposeからMinikube + Komposeに移行してみよう
+https://qiita.com/progrhyme/items/116948c9fef37f3e995b
+
+・
+
+
+
+
+
 ■コマンドメモ
-・docker-composeビルド（ローカル）
-set CONTAINER_NAME_PREFIX=
+・AWS-CLIのMFA認証
+aws-mfa
+※MFAコードを入力
+
+・ECRログイン（push用のaws ecr get-login）
+aws ecr get-login --region ap-northeast-1
+※実行して出力されるコマンドから「-e none」を削除したものを実行
+
+・ECRリポジトリ作成（docker-compose push用）（ローカル用）
+aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_nginx_local
+aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_express_local
+aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_postgres_local
+aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_kotlin-backend_local
+※ECRリポジトリURL：XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com/【--repository-nameの指定値】
+
+・docker-composeデプロイ＆ECR登録（docker-compose push）（ローカル用）※Windows用
+set DOCKER_REGISTRY=XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com
+set DOCKER_REPOSITORY_SUFFIX=_local
+set AWS_ACCOUNT=XXXXXXXXXXXX
+set AWS_REGION=ap-northeast-1
 cd kotlin-backend 
-gradlew jibDockerBuild
+REM gradlew jibDockerBuild
+gradlew jib -Paws.accountid=%AWS_ACCOUNT% -Paws.region=%AWS_REGION% --stacktrace
 cd ..
 docker-compose down && docker-compose build --no-cache && docker-compose up -d && docker-compose ps && docker-compose logs -f
+※動作確認し問題ないことを確認
+docker-compose push
+
+
+・Kompose起動準備
+※https://minikube.sigs.k8s.io/docs/start/、管理者権限CMDで「choco install minikube」
+minikube start
+※「! C:\Program Files\Docker\Docker\Resources\bin\kubectl.exe のバージョンは 1.14.7です。 1.18.0 の Kubernetes とは互換性がないかもしれません」と言われたので、https://kubernetes.io/ja/docs/tasks/tools/install-kubectl/ を参考に最新のバイナリファイルに置き換える（念のため古いファイルは退避）
+kubectl get po -A
+minikube kubectl -- get po -A
+minikube dashboard
+※Ctrl+Cで止めるまでの間、表示されるURLでkubernetesの状況が見れる
+
+・Kompose起動（ローカル）
+※https://kompose.io/、ダウンロードファイルを「kompose.exe」にリネームし、適当な場所に配置しパスを通す。
+※docker-compose.yamlファイルのある場所に移動
+kompose convert
+kompose up
+★★★「the server could not find the requested resource (post services)」のエラーになる★★★
+★いったんDocker Desktopのkubernetesを切った状態。その後の再トライは未
+★PC再起動も試す
+
+・Compose on Kubrenetesデプロイ（ローカル）
+※「docker-composeデプロイ（ローカル）」のdocker-composeコマンドの代わりに実行
+docker stack deploy --orchestrator=kubernetes -c docker-compose.yml next-ts-sample-app-kube
+docker stack ls --orchestrator=kubernetes
+kubectl get pod
+kubectl get svc
+docker stack services --orchestrator=kubernetes next-ts-sample-app-kube
+kubectl logs -f kubernetes
+docker stack rm --orchestrator=kubernetes next-ts-sample-app-kube
+★★★コンテナ間通信ができていない。ローカルもKomposeのほうがよさそう★★★
+
+＜その他URL＞
+https://qiita.com/h-r-k-matsumoto/items/68f694650029ddf7351d
+https://qiita.com/hesma2/items/9e1cbbc0b44c40b62981
+https://qiita.com/rururu_kenken/items/05720aac729ff5614e38
+https://masayuki14.hatenablog.com/entry/2019/04/19/Compose_on_Kubenetes_%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B
+https://masayuki14.hatenablog.com/entry/2019/04/19/Compose_on_Kubenetes_%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B
+https://qiita.com/frost-tb-voo/items/64233f0320d74e3cb6cf
+https://qiita.com/frost-tb-voo/items/64233f0320d74e3cb6cf
+https://qiita.com/ynott/items/4df239022f43fac67590
+https://jp.alibabacloud.com/help/doc-detail/85935.htm
+https://texta.pixta.jp/entry/2018/10/31/120000
+https://www.codeflow.site/ja/article/how-to-migrate-a-docker-compose-workflow-to-kubernetes
+https://qiita.com/s-shirayama/items/1d1e1ef639f129162ba3
+https://dev.classmethod.jp/articles/build-the-k8s-with-helm-on-a-local-mac/
+https://www.slideshare.net/masakinakayama2/dockerkubernetes-136578511
+https://deeeet.com/writing/2018/01/10/kubernetes-yaml/
+https://www.creationline.com/lab/25164
+https://github.com/docker/compose-on-kubernetes
+https://www.slideshare.net/masakinakayama2/dockerkubernetes-136578511
+https://speakerdeck.com/masayuki14/compose-on-kubernetes-wogkededong-kasou?slide=10
+
 
 ・ECSデプロイ
+set DOCKER_REGISTRY=XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com
+
+★★★CONTAINER_NAME_PREFIXはDOCKER_REPOSITORY_SUFFIXに変更が必要★★★
+
 set CONTAINER_NAME_PREFIX=ecs-
 cd kotlin-backend 
 gradlew jibDockerBuild
 cd ..
 docker-compose -f docker-compose.ecs.yml build --no-cache
-set CDK_DEFAULT_ACCOUNT=629540162457
-set CDK_DEFAULT_REGION=ap-northeast-1
+set AWS_ACCOUNT=XXXXXXXXXXXX
+set AWS_REGION=ap-northeast-1
 cd aws-cdk
 npm run build
 cdk ls -l
