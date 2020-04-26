@@ -772,6 +772,27 @@ https://qiita.com/progrhyme/items/116948c9fef37f3e995b
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ■コマンドメモ
 ・AWS-CLIのMFA認証
 aws-mfa
@@ -791,34 +812,70 @@ aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-samp
 ・docker-composeデプロイ＆ECR登録（docker-compose push）（ローカル用）※Windows用
 set DOCKER_REGISTRY=XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com
 set DOCKER_REPOSITORY_SUFFIX=_local
+★★★ローカルでは以下の環境変数値は「コンテナPostgreSQL・・・postgres:55432」「ローカルインストールPostgreSQL・・・localhost:5432」の切り替えが必要★★★
+set POSTGRES_DOCKER_HOSTNAME=postgres
+★★いらないかも★★set POSTGRES_DB_PORT=5432
 set AWS_ACCOUNT=XXXXXXXXXXXX
 set AWS_REGION=ap-northeast-1
-cd kotlin-backend 
-REM gradlew jibDockerBuild
+cd kotlin-backend
+※ECRにプッシュしない場合は「jibDockerBuild」★★★docker-composeはjibDockerBuild、kubernetesはjibの内容が使われることに注意
+gradlew jibDockerBuild
 gradlew jib -Paws.accountid=%AWS_ACCOUNT% -Paws.region=%AWS_REGION% --stacktrace
 cd ..
 docker-compose down && docker-compose build --no-cache && docker-compose up -d && docker-compose ps && docker-compose logs -f
 ※動作確認し問題ないことを確認
+docker-compose down
 docker-compose push
 
-
-・Kompose起動準備
-※https://minikube.sigs.k8s.io/docs/start/、管理者権限CMDで「choco install minikube」
-minikube start
-※「! C:\Program Files\Docker\Docker\Resources\bin\kubectl.exe のバージョンは 1.14.7です。 1.18.0 の Kubernetes とは互換性がないかもしれません」と言われたので、https://kubernetes.io/ja/docs/tasks/tools/install-kubectl/ を参考に最新のバイナリファイルに置き換える（念のため古いファイルは退避）
-kubectl get po -A
-minikube kubectl -- get po -A
-minikube dashboard
-※Ctrl+Cで止めるまでの間、表示されるURLでkubernetesの状況が見れる
+・Kompose起動準備（Docker for WindowsでKubernetesをONにしていればminikube不要）
+aws ecr get-login --region ap-northeast-1
+kubectl delete secret ecr-secret
+kubectl create secret docker-registry ecr-secret --docker-server=https://XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com --docker-username=AWS --docker-password=【aws ecr get-loginコマンドで表示される値】
 
 ・Kompose起動（ローカル）
 ※https://kompose.io/、ダウンロードファイルを「kompose.exe」にリネームし、適当な場所に配置しパスを通す。
 ※docker-compose.yamlファイルのある場所に移動
-kompose convert
-kompose up
-★★★「the server could not find the requested resource (post services)」のエラーになる★★★
-★いったんDocker Desktopのkubernetesを切った状態。その後の再トライは未
-★PC再起動も試す
+※.envのXXXXXXXXXXXX部分をAWSアカウントに変更
+docker-compose config > docker-compose-resolved.yml && kompose convert -f docker-compose-resolved.yml
+（※別cmdで）kubectl proxy --port=8080
+kompose up -f docker-compose-resolved.yml --build none
+kubectl get all
+※podのログ確認
+kubectl get pod
+kubectl logs 【pod名】
+kubectl exec -it 【pod名】 /bin/bash
+※podのステータスが怪しい場合の調査用（image-pull-secretの設定漏れがあるとErrImagePullとなる点に注意）
+kubectl describe pods
+※ネットワーク絡みの確認に
+kubectl describe svc
+kompose down -f docker-compose-resolved.yml
+（※別cmdのkubectl proxyをctrl+cで終了）
+
+★★★★★★docker-composeでは内部のポート、kubernetesでは外部のポートを利用している。ローカルに5432ポートでPostgreSQLを使っているからといって、docker-composeでポートを55432:5432とすると、kotlin-backendからのDBアクセス時にdocker-composeでは5432で繋がるがkubernetesでは55432でないと繋がらない。CORSの許可のホスト名もそのままだとだめっぽい★★★★★★
+
+
+
+＜参考サイト＞
+・Kompose not replacing environment variables from .env file
+https://github.com/kubernetes/kompose/issues/1164
+
+・Error while deploying application: Get http://localhost:8080/api: dial tcp [::1]:8080: connect: connection refused
+https://github.com/kubernetes/kompose/issues/1201
+
+・Kubernetes でプライベートリポジトリのコンテナイメージを使うには
+https://qiita.com/ktateish/items/f094433e92310ad737a8
+
+・Kompose公式ドキュメント
+https://github.com/kubernetes/kompose/blob/master/docs/user-guide.md
+※Labels「kompose.image-pull-secret」
+
+・kompose を使って kubernetes 上で docker-compose してみる
+https://hawksnowlog.blogspot.com/2018/03/kubernetes-with-kompose.html
+
+・Getting miss formatted postgres connection URL
+https://github.com/helm/charts/issues/9561
+※${POSTGRES_PORT}はkubernetesが上書き設定するため使えない。
+
 
 ・Compose on Kubrenetesデプロイ（ローカル）
 ※「docker-composeデプロイ（ローカル）」のdocker-composeコマンドの代わりに実行
@@ -872,4 +929,10 @@ cdk deploy
 cdk destroy
 
 
+
+
+
+■Rust
+・プロジェクト作成
+cargo 
 

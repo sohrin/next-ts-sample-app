@@ -3,3 +3,8 @@
 
 # Dependency directories
 node_modules/
+
+# kompose generated
+docker-compose-resolved.yml
+*-deployment.yaml
+*-service.yaml
