@@ -814,7 +814,6 @@ set DOCKER_REGISTRY=XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com
 set DOCKER_REPOSITORY_SUFFIX=_local
 ★★★ローカルでは以下の環境変数値は「コンテナPostgreSQL・・・postgres:55432」「ローカルインストールPostgreSQL・・・localhost:5432」の切り替えが必要★★★
 set POSTGRES_DOCKER_HOSTNAME=postgres
-★★いらないかも★★set POSTGRES_DB_PORT=5432
 set AWS_ACCOUNT=XXXXXXXXXXXX
 set AWS_REGION=ap-northeast-1
 cd kotlin-backend
@@ -837,7 +836,8 @@ kubectl create secret docker-registry ecr-secret --docker-server=https://XXXXXXX
 ※docker-compose.yamlファイルのある場所に移動
 ※.envのXXXXXXXXXXXX部分をAWSアカウントに変更
 docker-compose config > docker-compose-resolved.yml && kompose convert -f docker-compose-resolved.yml
-（※別cmdで）kubectl proxy --port=8080
+（※別cm
+dで）kubectl proxy --port=8080
 kompose up -f docker-compose-resolved.yml --build none
 kubectl get all
 ※podのログ確認

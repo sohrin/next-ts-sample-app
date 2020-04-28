@@ -6,10 +6,12 @@ services:
       dockerfile: ./Dockerfile
       args:
         EXPRESS_DOCKER_HOSTNAME: ${EXPRESS_DOCKER_HOSTNAME}
+        BACKEND_DOCKER_HOSTNAME: ${BACKEND_DOCKER_HOSTNAME}
     image: ${DOCKER_REGISTRY}/next-ts-sample-app_nginx${DOCKER_REPOSITORY_SUFFIX}
     container_name: next-ts-sample-app_nginx
     ports:
       - "80:80"
+      # TODO: HTTPS対応
     labels:
       kompose.service.type: LoadBalancer
       kompose.image-pull-secret: "ecr-secret"
@@ -21,8 +23,8 @@ services:
     container_name: next-ts-sample-app_express
     working_dir: /src
     command: [sh, -c, npm install && npm run build && npm run start]
-    ports:
-      - "3000:3000"
+    expose: 
+      - "3000"
     labels:
       kompose.image-pull-secret: "ecr-secret"
   # MEMO: Amazon RDS/Auroraを利用する場合はコメントアウトし.envの接続先を変更
@@ -30,8 +32,8 @@ services:
     build: ./docker/postgres/
     image: ${DOCKER_REGISTRY}/next-ts-sample-app_postgres${DOCKER_REPOSITORY_SUFFIX}
     container_name: next-ts-sample-app_postgres
-    ports:
-      - "${POSTGRES_DB_PORT}:5432"
+    expose: 
+      - "5432"
     environment:
       # TODO: envファイルに外出ししたほうがいいかも
       POSTGRES_PASSWORD: postgres
@@ -40,8 +42,8 @@ services:
   kotlin-backend:
     image: ${DOCKER_REGISTRY}/next-ts-sample-app_kotlin-backend${DOCKER_REPOSITORY_SUFFIX}
     container_name: next-ts-sample-kotlin-backend
-    ports:
-      - "8080:8080"
+    expose: 
+      - "8080"
     environment:
       # Spring Bootで必要となる.envファイルのプロパティキーを記載
       EXPRESS_DOCKER_HOSTNAME: ${EXPRESS_DOCKER_HOSTNAME}

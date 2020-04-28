@@ -44,3 +44,5 @@ services:
 #        awslogs-stream-prefix: db
 
 # TODO: kotlin-backendの追加
+
+# TODO: portsのexpose化について未反映

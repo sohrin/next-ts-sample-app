@@ -85,7 +85,7 @@ console.log(backendUrlBrower);
           // TypeScriptのAPIからデータを取得
           // ※Next.jsのAPIの動作確認用コード。
           //   SSRでは動くが、ブラウザ側ではホスト部分が見つからずエラーとなる。
-//          const nextJsApiResponse = await fetch('http://localhost:3000/api/sample')
+//          const nextJsApiResponse = await fetch('http://localhost:3000/backend-api/sample')
 //          const nextJsApiResponseData = await nextJsApiResponse.json()
 //          console.log(nextJsApiResponseData);
           
@@ -106,7 +106,7 @@ console.log(backendUrlBrower);
 //          let formData = new FormData()
 //          formData.append('id', String(date.getTime()));
 //          formData.append('name', date.toString());
-          await fetch(backendUrl + "/sample/add", {
+          await fetch(backendUrl + "/backend-api/sample/add", {
             method: 'post',
             headers: {
               'content-type': 'application/json',
@@ -116,7 +116,8 @@ console.log(backendUrlBrower);
             body : JSON.stringify(obj)
           })
           // 全件SELECT
-          const springBootApiResponse = await fetch(backendUrl + "/sample/getAll")
+          console.log("■getAllUrl: " + backendUrl + "/backend-api/sample/getAll");
+          const springBootApiResponse = await fetch(backendUrl + "/backend-api/sample/getAll")
           const springBootApiResponseData = await springBootApiResponse.json()
           console.log(springBootApiResponseData);
           
@@ -151,7 +152,7 @@ let backendUrlBrower = "http://" + process.env.BACKEND_HOSTNAME_AND_PORT;
 //          let formData = new FormData()
 //          formData.append('id', String(date.getTime()));
 //          formData.append('name', date.toString());
-  fetch(backendUrlBrower + "/sample/add", {
+  fetch(backendUrlBrower + "/backend-api/sample/add", {
     method: 'post',
     headers: {
       'content-type': 'application/json',
