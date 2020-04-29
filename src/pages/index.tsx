@@ -101,7 +101,7 @@ console.log(backendUrlBrower);
           let date = new Date();
           let obj = new TestModel01();
           obj.id = date.getTime();
-          obj.name = String(obj.id).substr(2);
+          obj.name = String(obj.id) + "getInitialProps_" + backendUrl;
 
 //          let formData = new FormData()
 //          formData.append('id', String(date.getTime()));
@@ -142,10 +142,11 @@ console.log(backendUrlBrower);
       }
 
 localApiCallTest() {
+  console.log("localApiCallTest begin.")
   let date = new Date();
   let obj = new TestModel01();
   obj.id = date.getTime();
-  obj.name = String(obj.id).substr(2);
+  obj.name = String(obj.id) + "_local";
 // TODO: ポート番号も環境変数化する？
 let backendUrlSsr = "http://" + process.env.BACKEND_HOSTNAME + ":8080";
 let backendUrlBrower = "http://" + process.env.BACKEND_HOSTNAME_AND_PORT;
@@ -161,6 +162,7 @@ let backendUrlBrower = "http://" + process.env.BACKEND_HOSTNAME_AND_PORT;
 //            body: JSON.stringify('{"id": "' + String(date.getTime()) + '", "name": "' + date.toString() + '"}')
     body : JSON.stringify(obj)
   })
+  console.log("localApiCallTest end.")
 }
 
     // getInitialProps()で返した値がコンポーネントにPropsとして渡されてくる。

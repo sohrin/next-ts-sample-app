@@ -10,5 +10,6 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 CMD ["dockerize", "-timeout", "300s", \
      "-wait", "tcp://postgres:5432", \
+     "-wait-retry-interval", "5s", \
      "java", "-cp", "/app/resources:/app/classes:/app/libs/*", \
      "com.sanyu_i.sisdiv3.n_study.ntsa.kotlinbackend.KotlinBackendApplicationKt"]

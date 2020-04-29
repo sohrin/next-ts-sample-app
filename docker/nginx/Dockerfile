@@ -19,4 +19,5 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
 CMD ["dockerize", "-timeout", "300s", \
      "-wait", "tcp://express:3000", \
      "-wait", "tcp://kotlin-backend:8080", \
+     "-wait-retry-interval", "5s", \
      "nginx", "-g", "daemon off;"]
