@@ -2,12 +2,12 @@
 FROM nginx:1.18.0-alpine
 
 # 環境変数
-ARG EXPRESS_DOCKER_HOSTNAME
-ARG BACKEND_DOCKER_HOSTNAME
+ARG EXPRESS_HOSTNAME
+ARG BACKEND_HOSTNAME
 
 # 設定ファイルの配置・envsubst書き換え
 COPY conf.d/default.conf.template /etc/nginx/conf.d/default.conf.template
-RUN envsubst '${EXPRESS_DOCKER_HOSTNAME} ${BACKEND_DOCKER_HOSTNAME}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf \
+RUN envsubst '${EXPRESS_HOSTNAME} ${BACKEND_HOSTNAME}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf \
     && rm /etc/nginx/conf.d/default.conf.template
 
 # Dockerize（コンテナ起動待ち用）

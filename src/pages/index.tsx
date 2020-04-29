@@ -70,8 +70,8 @@ export default class Home extends React.Component<HomeProps, {}> {
         try {
           let backendUrl;
 // TODO: ポート番号も環境変数化する？
-console.log(process.env.BACKEND_DOCKER_HOSTNAME);
-let backendUrlSsr = "http://" + process.env.BACKEND_DOCKER_HOSTNAME + ":8080";
+console.log(process.env.BACKEND_HOSTNAME);
+let backendUrlSsr = "http://" + process.env.BACKEND_HOSTNAME + ":8080";
 let backendUrlBrower = "http://" + process.env.BACKEND_HOSTNAME_AND_PORT;
 console.log(backendUrlSsr);
 console.log(backendUrlBrower);
@@ -147,7 +147,7 @@ localApiCallTest() {
   obj.id = date.getTime();
   obj.name = String(obj.id).substr(2);
 // TODO: ポート番号も環境変数化する？
-let backendUrlSsr = "http://" + process.env.BACKEND_DOCKER_HOSTNAME + ":8080";
+let backendUrlSsr = "http://" + process.env.BACKEND_HOSTNAME + ":8080";
 let backendUrlBrower = "http://" + process.env.BACKEND_HOSTNAME_AND_PORT;
 //          let formData = new FormData()
 //          formData.append('id', String(date.getTime()));

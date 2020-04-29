@@ -805,7 +805,7 @@ git clone https://github.com/sohrin/next-ts-sample-app.git
 cd next-ts-sample-app
 npm install
 npm run dev
-set POSTGRES_DOCKER_HOSTNAME=localhost
+set POSTGRES_HOSTNAME=localhost
 cd kotlin-backend && gradlew bootRun
 
 ・AWS-CLIのMFA認証
@@ -827,7 +827,7 @@ aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-samp
 set DOCKER_REGISTRY=XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com
 set DOCKER_REPOSITORY_SUFFIX=_local
 ★★★ローカルでは以下の環境変数値は「コンテナPostgreSQL・・・postgres:55432」「ローカルインストールPostgreSQL・・・localhost:5432」の切り替えが必要★★★
-set POSTGRES_DOCKER_HOSTNAME=postgres
+set POSTGRES_HOSTNAME=postgres
 set AWS_ACCOUNT=XXXXXXXXXXXX
 set AWS_REGION=ap-northeast-1
 cd kotlin-backend
