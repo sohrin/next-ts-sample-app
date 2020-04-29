@@ -794,6 +794,20 @@ https://qiita.com/progrhyme/items/116948c9fef37f3e995b
 
 
 ■コマンドメモ
+・初期インストール＆画面単体起動＆API単体起動
+（npm run devで「EPERM: operation not permitted」エラーがでたので再クローンしたときの手順）
+※Git for Windowsインストール
+※Docker for Windowsインストール
+※Open JDK11インストール
+※Node.jsインストール
+※PostgreSQLインストール（postgresコンテナの初期DDL・DMLを実施）// TODO: Flyway導入後はインストールのみでOK
+git clone https://github.com/sohrin/next-ts-sample-app.git
+cd next-ts-sample-app
+npm install
+npm run dev
+set POSTGRES_DOCKER_HOSTNAME=localhost
+cd kotlin-backend && gradlew bootRun
+
 ・AWS-CLIのMFA認証
 aws-mfa
 ※MFAコードを入力
@@ -802,7 +816,7 @@ aws-mfa
 aws ecr get-login --region ap-northeast-1
 ※実行して出力されるコマンドから「-e none」を削除したものを実行
 
-・ECRリポジトリ作成（docker-compose push用）（ローカル用）
+・ECRリポジトリ作成（docker-compose push用）（ローカル用）※実行は一度でOK
 aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_nginx_local
 aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_express_local
 aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_postgres_local
@@ -827,7 +841,7 @@ docker-compose down
 docker-compose push
 
 ・Kompose起動準備（Docker for WindowsでKubernetesをONにしていればminikube不要）
-aws ecr get-login --region ap-northeast-1
+※ECRログインを実施
 kubectl delete secret ecr-secret
 kubectl create secret docker-registry ecr-secret --docker-server=https://XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com --docker-username=AWS --docker-password=【aws ecr get-loginコマンドで表示される値】
 
@@ -836,13 +850,12 @@ kubectl create secret docker-registry ecr-secret --docker-server=https://XXXXXXX
 ※docker-compose.yamlファイルのある場所に移動
 ※.envのXXXXXXXXXXXX部分をAWSアカウントに変更
 docker-compose config > docker-compose-resolved.yml && kompose convert -f docker-compose-resolved.yml
-（※別cm
-dで）kubectl proxy --port=8080
+（※別cmdで）kubectl proxy --port=8080
 kompose up -f docker-compose-resolved.yml --build none
 kubectl get all
 ※podのログ確認
 kubectl get pod
-kubectl logs 【pod名】
+kubectl logs -f【pod名】
 kubectl exec -it 【pod名】 /bin/bash
 ※podのステータスが怪しい場合の調査用（image-pull-secretの設定漏れがあるとErrImagePullとなる点に注意）
 kubectl describe pods
