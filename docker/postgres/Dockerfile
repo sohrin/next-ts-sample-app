@@ -6,5 +6,6 @@ FROM postgres:11.6-alpine
 ENV LANG ja_JP.utf8
 
 # 初期設定
+# DB作成のみDockerfileで行い、その他のDBマイグレーションはFlywayにて実施
 COPY .pgpass /root/.pgpass
 COPY docker-entrypoint-initdb.d/ /docker-entrypoint-initdb.d/

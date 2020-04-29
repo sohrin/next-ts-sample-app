@@ -30,6 +30,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.2")
+	implementation("org.flywaydb:flyway-core")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
@@ -49,7 +50,11 @@ tasks.withType<KotlinCompile> {
 }
 
 jib {
-  to {
-    image = (System.getenv("DOCKER_REGISTRY") ?: "") + "/" + "next-ts-sample-app_kotlin-backend" + (System.getenv("DOCKER_REPOSITORY_SUFFIX") ?: "")
-  }
+	from {
+		// dockerizeのためシェルが実行できるイメージを選択
+		image = "adoptopenjdk/openjdk11:alpine-slim"
+	}
+	to {
+		image = (System.getenv("DOCKER_REGISTRY") ?: "") + "/" + "next-ts-sample-app_kotlin-backend" + (System.getenv("DOCKER_REPOSITORY_SUFFIX") ?: "") + "_no_dockerized"
+	}
 }

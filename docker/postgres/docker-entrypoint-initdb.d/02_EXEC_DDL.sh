@@ -1,1 +1,0 @@
-psql -U appuser appdb -f /docker-entrypoint-initdb.d/DDL/table/DDL-CREATE_TABLE-test_model01.sql

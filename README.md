@@ -821,6 +821,7 @@ aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-samp
 aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_express_local
 aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_postgres_local
 aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_kotlin-backend_local
+aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_kotlin-backend_local_no_dockerized
 ※ECRリポジトリURL：XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com/【--repository-nameの指定値】
 
 ・docker-composeデプロイ＆ECR登録（docker-compose push）（ローカル用）※Windows用

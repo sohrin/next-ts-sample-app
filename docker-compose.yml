@@ -40,6 +40,12 @@ services:
     labels:
       kompose.image-pull-secret: "ecr-secret"
   kotlin-backend:
+    build:
+      context: ./docker/kotlin-backend/
+      dockerfile: ./Dockerfile
+      args:
+        DOCKER_REGISTRY: ${DOCKER_REGISTRY}
+        DOCKER_REPOSITORY_SUFFIX: ${DOCKER_REPOSITORY_SUFFIX}
     image: ${DOCKER_REGISTRY}/next-ts-sample-app_kotlin-backend${DOCKER_REPOSITORY_SUFFIX}
     container_name: next-ts-sample-kotlin-backend
     expose: 
