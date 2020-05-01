@@ -871,12 +871,11 @@ kompose down -f docker-compose-resolved.yml
 cd C:\_dev\js\n-study\next-ts-sample-app
 cargo generate --git https://github.com/rustwasm/wasm-pack-template
 ※プロジェクト名はrust-wasm-packとした
-
-・wasm-packプロジェクトビルド
-cd C:\_dev\js\n-study\next-ts-sample-app\rust-wasm-pack
-wasm-pack build
-cd ..
+※以下は一度wasm-pack buildしてからnext-ts-sample-appフォルダ直下で実施
 npm install file:rust-wasm-pack/pkg
+
+・wasm-packプロジェクトビルド（next-ts-sample-appフォルダ直下にいる前提）
+cd rust-wasm-pack && wasm-pack build && cd ..
 
 
 

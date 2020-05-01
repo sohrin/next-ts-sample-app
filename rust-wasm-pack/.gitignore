@@ -2,5 +2,6 @@
 **/*.rs.bk
 Cargo.lock
 bin/
-pkg/
+# MEMO: pkgフォルダはGit管理する方針。Dockerfileでビルドする場合はignore対象に含めること。
+# pkg/
 wasm-pack.log

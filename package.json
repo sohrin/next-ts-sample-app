@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "cd rust-wasm-pack && wasm-pack build && cd .. && cross-env NODE_ENV=localNpm next",
-    "build": "cd rust-wasm-pack && wasm-pack build && cd .. && cross-env NODE_ENV=docker next build",
-    "start": "cd rust-wasm-pack && wasm-pack build && cd .. && cross-env NODE_ENV=docker next start"
+    "dev": "echo !!! for update wasm, exec \"cd rust-wasm-pack && wasm-pack build && cd ..\" !!! && cross-env NODE_ENV=localNpm next",
+    "build": "cross-env NODE_ENV=docker next build",
+    "start": "cross-env NODE_ENV=docker next start"
   },
   "keywords": [],
   "author": "",
