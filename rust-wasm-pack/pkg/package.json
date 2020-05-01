@@ -1,0 +1,15 @@
+{
+  "name": "rust-wasm-pack",
+  "collaborators": [
+    "s.murase <s.murase@sanyu-i.com>"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "rust_wasm_pack_bg.wasm",
+    "rust_wasm_pack.js",
+    "rust_wasm_pack.d.ts"
+  ],
+  "module": "rust_wasm_pack.js",
+  "types": "rust_wasm_pack.d.ts",
+  "sideEffects": false
+}
