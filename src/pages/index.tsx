@@ -176,7 +176,7 @@ let backendUrlBrower = "http://" + process.env.BACKEND_HOSTNAME_AND_PORT;
             <Link href="/about">
               <a>About Us</a>
             </Link>
-            <Link href="">
+            <Link href="#">
               {/* TODO: onClick処理を実行する時にSSR時のSELECT結果が消える件 */}
               <a onClick={this.localApiCallTest}>ボタン押下処理</a>
             </Link>

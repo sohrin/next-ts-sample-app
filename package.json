@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=localNpm next",
-    "build": "cross-env NODE_ENV=docker next build",
-    "start": "cross-env NODE_ENV=docker next start"
+    "dev": "cd rust-wasm-pack && wasm-pack build && cd .. && cross-env NODE_ENV=localNpm next",
+    "build": "cd rust-wasm-pack && wasm-pack build && cd .. && cross-env NODE_ENV=docker next build",
+    "start": "cd rust-wasm-pack && wasm-pack build && cd .. && cross-env NODE_ENV=docker next start"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +19,7 @@
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "reflect-metadata": "^0.1.13",
+    "rust-wasm-pack": "file:rust-wasm-pack/pkg",
     "typeorm": "^0.2.24"
   },
   "devDependencies": {

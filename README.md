@@ -867,6 +867,19 @@ kompose down -f docker-compose-resolved.yml
 
 ★★★★★★docker-composeでは内部のポート、kubernetesでは外部のポートを利用している。ローカルに5432ポートでPostgreSQLを使っているからといって、docker-composeでポートを55432:5432とすると、kotlin-backendからのDBアクセス時にdocker-composeでは5432で繋がるがkubernetesでは55432でないと繋がらない。CORSの許可のホスト名もそのままだとだめっぽい★★★★★★
 
+・wasm-packプロジェクト作成
+cd C:\_dev\js\n-study\next-ts-sample-app
+cargo generate --git https://github.com/rustwasm/wasm-pack-template
+※プロジェクト名はrust-wasm-packとした
+
+・wasm-packプロジェクトビルド
+cd C:\_dev\js\n-study\next-ts-sample-app\rust-wasm-pack
+wasm-pack build
+cd ..
+npm install file:rust-wasm-pack/pkg
+
+
+
 
 
 ＜参考サイト＞
