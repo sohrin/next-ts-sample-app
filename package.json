@@ -5,13 +5,16 @@
   "main": "index.js",
   "scripts": {
     "dev": "echo !!! for update wasm, exec \"cd rust-wasm-pack && wasm-pack build && cd ..\" !!! && cross-env NODE_ENV=localNpm next",
-    "build": "cross-env NODE_ENV=docker next build",
+    "build": "yarn prepare-pems --region ap-northeast-1 --userPoolId ap-northeast-1_TetIaCkHg && cross-env NODE_ENV=docker next build",
     "start": "cross-env NODE_ENV=docker next start"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-amplify/auth": "^3.2.6",
+    "@aws-amplify/core": "^3.2.6",
+    "aws-cognito-next": "^3.0.0",
     "dotenv": "^8.2.0",
     "isomorphic-unfetch": "^3.0.0",
     "next": "^9.3.0",

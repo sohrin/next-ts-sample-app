@@ -171,15 +171,25 @@ let backendUrlBrower = "http://" + process.env.BACKEND_HOSTNAME_AND_PORT;
         return (
           <ul>
             <h1>Hello world!!!</h1>
-            <p><a href="/static.html">staticフォルダのhtmlへ遷移</a></p>
             {this.props.posts.map((post) => <li key={post.key}>{post.title}</li>)}
-            <Link href="/about">
-              <a>About Us</a>
-            </Link>
-            <Link href="#">
-              {/* TODO: onClick処理を実行する時にSSR時のSELECT結果が消える件 */}
-              <a onClick={this.localApiCallTest}>ボタン押下処理</a>
-            </Link>
+            <p>
+              <a href="/static.html">staticフォルダのhtmlへ遷移</a>
+            </p>
+            <p>
+              <Link href="/about">
+                <a>About Us</a>
+              </Link>
+            </p>
+            <p>
+              <Link href="#">
+                <a onClick={this.localApiCallTest}>ボタン押下処理</a>
+              </Link>
+            </p>
+            <p>
+              <Link href="/login">
+                <a>要認証画面へ</a>
+              </Link>
+            </p>
           </ul>
         )
     }
