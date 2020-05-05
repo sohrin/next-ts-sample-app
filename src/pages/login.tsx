@@ -43,7 +43,7 @@ const Login = (props: { initialAuth: AuthTokens }) => {
           </button>
           <p>
             <Link href="#">
-              <a onClick={callAuthApi}>ボタン押下処理</a>
+              <a onClick={callAuthApi}>ボタン押下処理（ブラウザのコンソールを参照）</a>
             </Link>
           </p>
         </>

@@ -52,6 +52,8 @@ services:
       - "8080"
     environment:
       # Spring Bootで必要となる.envファイルのプロパティキーを記載
+      AWS_REGION: ${AWS_REGION}
+      USER_POOL_ID: ${USER_POOL_ID}
       EXPRESS_HOSTNAME: ${EXPRESS_HOSTNAME}
       POSTGRES_HOSTNAME: ${POSTGRES_HOSTNAME}
       APP_DBNAME: ${APP_DBNAME}

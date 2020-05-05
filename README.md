@@ -829,13 +829,20 @@ set DOCKER_REGISTRY=XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com
 set DOCKER_REPOSITORY_SUFFIX=_local
 ★★★ローカルでは以下の環境変数値は「コンテナPostgreSQL・・・postgres:55432」「ローカルインストールPostgreSQL・・・localhost:5432」の切り替えが必要★★★
 set POSTGRES_HOSTNAME=postgres
+set APP_DBNAME=appdb
+set APP_USERNAME=appuser
+set APP_PASSWORD=apppass
 set AWS_ACCOUNT=XXXXXXXXXXXX
 set AWS_REGION=ap-northeast-1
+※npm起動・ローカルdocker-compose起動：ap-northeast-1_TetIaCkHg、
+set USER_POOL_ID=ap-northeast-1_TetIaCkHg
 cd kotlin-backend
 ※ECRにプッシュしない場合は「jibDockerBuild」★★★docker-composeはjibDockerBuild、kubernetesはjibの内容が使われることに注意
 gradlew jibDockerBuild
+※aws-mfaとaws ecr get-loginを済ませておくこと
 gradlew jib -Paws.accountid=%AWS_ACCOUNT% -Paws.region=%AWS_REGION% --stacktrace
 cd ..
+※プロジェクト内のXXXXXXXXXXXXをAWSアカウント名に一括置換しておくこと（コミット時はXXXXXXXXXXXXに戻すこと）
 docker-compose down && docker-compose build --no-cache && docker-compose up -d && docker-compose ps && docker-compose logs -f
 ※動作確認し問題ないことを確認
 docker-compose down

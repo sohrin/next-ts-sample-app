@@ -24,27 +24,30 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-actuator")
-	implementation("org.springframework.boot:spring-boot-starter-web")
+	// Kotlin
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-	// for SpringSecurity
+	// Web
+	implementation("org.springframework.boot:spring-boot-starter-web")
+
+	// Database
+	runtimeOnly("org.postgresql:postgresql")
+	implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.2")
+	implementation("org.flywaydb:flyway-core")
+
+	// Security
 	implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 
-	// for MyBatis
-	implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.2")
+	// Monitoring
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
 
-	// for migration
-	implementation("org.flywaydb:flyway-core")
-
-	// for dev
+	// Dev
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
-	runtimeOnly("org.postgresql:postgresql")
-	
-	// for test
+
+	// Test
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
@@ -63,7 +66,7 @@ tasks.withType<KotlinCompile> {
 
 jib {
 	from {
-		// dockerizeのためシェルが実行できるイメージを選択
+		// MEMO: dockerizeのためシェルが実行できるイメージを選択
 		image = "adoptopenjdk/openjdk11:alpine-slim"
 	}
 	to {

@@ -24,7 +24,7 @@ class SampleApiController {
     @GetMapping("/getAll")
     fun getAll(): List<Sample> {
         // TODO: 後で消す
-        log.info("★★★datasourceUrl:[" + datasourceUrl + "]")
+        log.info("★★★datasourceUrl:[$datasourceUrl]")
         return sampleService.getAll()
     }
 
