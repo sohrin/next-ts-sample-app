@@ -965,7 +965,9 @@ cdk destroy
 
 
 
-■Rust
-・プロジェクト作成
-cargo 
+■Qiitaメモ
+・yarnを使うプロジェクトでnpm installを禁止する方法
+https://qiita.com/suin/items/a7bf214f48eb9b2d9afc
 
+・フロントエンドテストを雰囲気で書いているとハマりがちなところ
+https://qiita.com/mugi_uno/items/0cd13a52923a8b831513
