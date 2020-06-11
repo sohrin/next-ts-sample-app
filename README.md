@@ -828,6 +828,7 @@ aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-samp
 set DOCKER_REGISTRY=XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com
 set DOCKER_REPOSITORY_SUFFIX=_local
 ★★★ローカルでは以下の環境変数値は「コンテナPostgreSQL・・・postgres:55432」「ローカルインストールPostgreSQL・・・localhost:5432」の切り替えが必要★★★
+★★★bootRun時、いくつか設定が必要な環境変数が存在している。整理すること（AWS_REGION等。jwt認証で必要になってる）★★★
 set POSTGRES_HOSTNAME=postgres
 set APP_DBNAME=appdb
 set APP_USERNAME=appuser
@@ -971,3 +972,106 @@ https://qiita.com/suin/items/a7bf214f48eb9b2d9afc
 
 ・フロントエンドテストを雰囲気で書いているとハマりがちなところ
 https://qiita.com/mugi_uno/items/0cd13a52923a8b831513
+
+
+
+
+
+
+■Vagrantメモ
+・目標
+①Vagrantで立てたVMで自動でdocker-compose起動
+https://github.com/tokyo-metropolitan-gov/covid19
+https://github.com/tokyo-metropolitan-gov/covid19/blob/development/Vagrantfile
+https://github.com/tokyo-metropolitan-gov/covid19/blob/development/vagrant_provision.sh
+②複数ホストにKVMで複数VMを起動し冗長化構成を組む（ネットワーク的な勉強も兼ねる）
+
+
+・VirtualBoxインストール
+https://qiita.com/Esfahan/items/41c4469f28f6011ab33b
+https://www.virtualbox.org/wiki/Downloads
+※VirtualBox 6.1.10 platform packagesのWindows hostsをクリック
+※ダウンロードファイル名：VirtualBox-6.1.10-138449-Win.exe
+※インストーラーは全てそのままで「次へ」
+
+・Vagrantのインストール手順
+https://sukkiri.jp/technologies/orchestration_tools/vagrant/vagrant_install.html
+https://www.vagrantup.com/downloads
+※初期表示時は32bitのため、64bitを選択すること。
+※ダウンロードファイル名：vagrant_2.2.9_x86_64.msi
+※インストーラーは全てそのままで「次へ」
+
+・初期化、起動、SSH接続、終了
+http://vdeep.net/vagrant-cloud
+※実行したコマンド
+cd 【next-ts-sample-appクローンディレクトリ】
+vagrant init generic/ubuntu2004
+    ※initはVagrantfile作成コマンドなので、今後プロジェクトをクローンした人は
+    　「VirtualBoxインストール」、「Vagrantインストール」、「vagrant up」するだけでいいはず。
+    　1GB位ダウンロードするので初回は30分位時間がかかると思われる。
+
+vagrant up
+※おそらく初回は「SSH auth method: private key」で待たされる。
+　VirtualBoxで画面表示してみると、GNU GRUBのブート選択画面が表示されており、
+　一度選択してあげれば、今後はvagrant upがすぐ終わるようになる。
+　なお、vagrant destroy→vagrant upしたときはGNU GRUBのブート選択画面が表示されなかった。
+　※参考サイト（以下のどれでもなかったが）
+　Windows7にVagrantを導入 - 失敗した事：https://qiita.com/rrryutaro/items/260f0f4bd0b1e550b6da
+    C:\_dev\js\n-study\next-ts-sample-app>vagrant up
+    Bringing machine 'default' up with 'virtualbox' provider...
+    ==> default: Box 'generic/ubuntu2004' could not be found. Attempting to find and install...
+        default: Box Provider: virtualbox
+        default: Box Version: >= 0
+    ==> default: Loading metadata for box 'generic/ubuntu2004'
+        default: URL: https://vagrantcloud.com/generic/ubuntu2004
+    ==> default: Adding box 'generic/ubuntu2004' (v3.0.8) for provider: virtualbox
+        default: Downloading: https://vagrantcloud.com/generic/boxes/ubuntu2004/versions/3.0.8/providers/virtualbox.box
+    Download redirected to host: vagrantcloud-files-production.s3.amazonaws.com
+        default:
+        default: Calculating and comparing box checksum...
+    ==> default: Successfully added box 'generic/ubuntu2004' (v3.0.8) for 'virtualbox'!
+    ==> default: Importing base box 'generic/ubuntu2004'...
+    ==> default: Matching MAC address for NAT networking...
+    ==> default: Checking if box 'generic/ubuntu2004' version '3.0.8' is up to date...
+    ==> default: Setting the name of the VM: next-ts-sample-app_default_1591761448654_3411
+    ==> default: Clearing any previously set network interfaces...
+    ==> default: Preparing network interfaces based on configuration...
+        default: Adapter 1: nat
+    ==> default: Forwarding ports...
+        default: 22 (guest) => 2222 (host) (adapter 1)
+    ==> default: Running 'pre-boot' VM customizations...
+    ==> default: Booting VM...
+    ==> default: Waiting for machine to boot. This may take a few minutes...
+        default: SSH address: 127.0.0.1:2222
+        default: SSH username: vagrant
+        default: SSH auth method: private key
+    The guest machine entered an invalid state while waiting for it
+    to boot. Valid states are 'starting, running'. The machine is in the
+    'unknown' state. Please verify everything is configured
+    properly and try again.
+
+    If the provider you're using has a GUI that comes with it,
+    it is often helpful to open that and watch the machine, since the
+    GUI often has more helpful error messages than Vagrant can retrieve.
+    For example, if you're using VirtualBox, run `vagrant up` while the
+    VirtualBox GUI is open.
+
+    The primary issue for this error is that the provider you're using
+    is not properly configured. This is very rarely a Vagrant issue.
+
+vagrant ssh
+★★★待たされた上に「ssh_exchange_identification: read: Connection reset」となり繋がらない。★★★
+
+vagrant halt
+※VMの停止コマンド。電源OFFのイメージ。
+　VM削除（Boxまでは消さない）は「vagrant destroy」なので、スクラップ＆ビルドは「vagrant destroy」、「vagrant up」
+    C:\_dev\js\n-study\next-ts-sample-app>vagrant halt
+    ==> default: Attempting graceful shutdown of VM...
+        default: Guest communication could not be established! This is usually because
+        default: SSH is not running, the authentication information was changed,
+        default: or some other networking issue. Vagrant will force halt, if
+        default: capable.
+    ==> default: Forcing shutdown of VM...
+
+
+

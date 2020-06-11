@@ -1,6 +1,9 @@
 # next.js build output
 .next/
 
+# Vagrant
+.vagrant/
+
 # Dependency directories
 node_modules/
 

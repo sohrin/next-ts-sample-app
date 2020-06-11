@@ -14,11 +14,13 @@
   "dependencies": {
     "@aws-amplify/auth": "^3.2.6",
     "@aws-amplify/core": "^3.2.6",
+    "@inlet/react-pixi": "^4.1.0",
     "aws-cognito-next": "^3.0.0",
     "dotenv": "^8.2.0",
     "isomorphic-unfetch": "^3.0.0",
     "next": "^9.3.0",
     "pg": "^7.18.2",
+    "pixi.js": "^5.2.4",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "reflect-metadata": "^0.1.13",
