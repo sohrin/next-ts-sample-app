@@ -15,6 +15,9 @@ services:
     labels:
       kompose.service.type: LoadBalancer
       kompose.image-pull-secret: "ecr-secret"
+    environment:
+      EXPRESS_HOSTNAME: ${EXPRESS_HOSTNAME}
+      BACKEND_HOSTNAME: ${BACKEND_HOSTNAME}
   express:
     build:
       context: ./
@@ -46,6 +49,7 @@ services:
       args:
         DOCKER_REGISTRY: ${DOCKER_REGISTRY}
         DOCKER_REPOSITORY_SUFFIX: ${DOCKER_REPOSITORY_SUFFIX}
+        POSTGRES_HOSTNAME: ${POSTGRES_HOSTNAME}
     image: ${DOCKER_REGISTRY}/next-ts-sample-app_kotlin-backend${DOCKER_REPOSITORY_SUFFIX}
     container_name: next-ts-sample-kotlin-backend
     expose: 

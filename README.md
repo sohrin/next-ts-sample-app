@@ -1,6 +1,9 @@
 # next-ts-sample-app
 Next.js(TypeScript)のサンプルプロジェクトです。
 
+# memo
+* vscodeでMarkdownをプレビュー：［Ctrl］＋［K］→［V］
+
 ## 必須インストール（フロントエンド）
 1. Node.js
 2. Visual Studio Code（以降vscodeと記載）
@@ -19,7 +22,7 @@ Next.js(TypeScript)のサンプルプロジェクトです。
 3. vscode上でSpring Bootを動作させる環境
     1. 拡張機能「Java Extension Pack」、「Spring Boot Extension Pack」、「Gradle Language Support」をインストールする。
         - （参考）VS Code + Spring Boot + Maven + JPA + H2 で最速 Web API 環境の構築（Step1）：https://qiita.com/euledge/items/ce3e24a2b8020441cd85
-        - （参考）環境構築(VSCode + kotlin + spring boot + Gradle)：https://qiita.com/miro108/items/43cf6878eff70830a0c9 
+        - （参考）環境構築(VSCode + kotlin + spring boot + Gradvle)：https://qiita.com/miro108/items/43cf6878eff70830a0c9 
         - （参考）VSCodeでGradleを使い、Javaをビルド→ランするまで：https://qiita.com/yhayashi30/items/910a79da8b7c7fe7872e
     2. 【Windowsの場合】「gradlew.bat build」、「gradlew.bat bootRun」を実行し、SpringBootアプリが起動することを確認する（2020-04-05時点ではGradle 6.3が動く）。
         - （参考）Spring Boot + PostgreSQLの設定方法：https://qiita.com/k0uhashi/items/55cbb88fd0d1b8ae4721
@@ -817,6 +820,7 @@ aws ecr get-login --region ap-northeast-1
 ※実行して出力されるコマンドから「-e none」を削除したものを実行
 
 ・ECRリポジトリ作成（docker-compose push用）（ローカル用）※実行は一度でOK
+※aws-mfaとaws ecr get-loginを済ませておくこと
 aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_nginx_local
 aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_express_local
 aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_postgres_local
@@ -824,10 +828,12 @@ aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-samp
 aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_kotlin-backend_local_no_dockerized
 ※ECRリポジトリURL：XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com/【--repository-nameの指定値】
 
-・docker-composeデプロイ＆ECR登録（docker-compose push）（ローカル用）※Windows用
+
+・docker-composeビルド・起動（ローカル用）※Windows用
 set DOCKER_REGISTRY=XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com
 set DOCKER_REPOSITORY_SUFFIX=_local
-★★★ローカルでは以下の環境変数値は「コンテナPostgreSQL・・・postgres:55432」「ローカルインストールPostgreSQL・・・localhost:5432」の切り替えが必要★★★
+★★★ローカルでは以下の環境変数値は「コンテナPostgreSQL・・・postgres:55432」「ローカルインストールPostgreSQL・・・localhost:5432」の切り替えが必要★★★set POSTGRES_HOSTNAME=localhost
+★★★RDSにローカルから繋ぐときも、環境変数POSTGRES_HOSTNAMEの値変更が必要。★★★set POSTGRES_HOSTNAME=【RDSエンドポイントの値】
 ★★★bootRun時、いくつか設定が必要な環境変数が存在している。整理すること（AWS_REGION等。jwt認証で必要になってる）★★★
 set POSTGRES_HOSTNAME=postgres
 set APP_DBNAME=appdb
@@ -840,14 +846,65 @@ set USER_POOL_ID=ap-northeast-1_TetIaCkHg
 cd kotlin-backend
 ※ECRにプッシュしない場合は「jibDockerBuild」★★★docker-composeはjibDockerBuild、kubernetesはjibの内容が使われることに注意
 gradlew jibDockerBuild
-※aws-mfaとaws ecr get-loginを済ませておくこと
-gradlew jib -Paws.accountid=%AWS_ACCOUNT% -Paws.region=%AWS_REGION% --stacktrace
-cd ..
 ※プロジェクト内のXXXXXXXXXXXXをAWSアカウント名に一括置換しておくこと（コミット時はXXXXXXXXXXXXに戻すこと）
 docker-compose down && docker-compose build --no-cache && docker-compose up -d && docker-compose ps && docker-compose logs -f
 ※動作確認し問題ないことを確認
 docker-compose down
+
+・ECRリポジトリ作成（Fargate用）※実行は一度でOK
+※aws-mfaとaws ecr get-loginを済ませておくこと
+aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_nginx_ecs
+aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_express_ecs
+aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_postgres_ecs
+aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_kotlin-backend_ecs
+aws --region ap-northeast-1 ecr create-repository --repository-name next-ts-sample-app_kotlin-backend_ecs_no_dockerized
+※ECRリポジトリURL：XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com/【--repository-nameの指定値】
+
+・ECS用docker-composeビルド＆ECR登録＆ECSデプロイ
+set DOCKER_REGISTRY=XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com
+set DOCKER_REPOSITORY_SUFFIX=_ecs
+set POSTGRES_HOSTNAME=next-ts-sample-app-database-test-1.cpscrlo9cjxa.ap-northeast-1.rds.amazonaws.com
+set APP_DBNAME=appdb
+set APP_USERNAME=appuser
+set APP_PASSWORD=apppass
+set AWS_ACCOUNT=XXXXXXXXXXXX
+set AWS_REGION=ap-northeast-1
+※npm起動・ローカルdocker-compose起動：ap-northeast-1_TetIaCkHg、
+set USER_POOL_ID=ap-northeast-1_TetIaCkHg
+cd kotlin-backend
+※aws-mfaとaws ecr get-loginを済ませておくこと
+gradlew jib -Paws.accountid=%AWS_ACCOUNT% -Paws.region=%AWS_REGION% --stacktrace
+cd ..
+docker-compose down && docker-compose build --no-cache
 docker-compose push
+
+
+
+
+
+
+
+
+★★★CONTAINER_NAME_PREFIXはDOCKER_REPOSITORY_SUFFIXに変更が必要★★★
+
+set CONTAINER_NAME_PREFIX=ecs-
+cd kotlin-backend 
+gradlew jibDockerBuild
+cd ..
+docker-compose -f docker-compose.ecs.yml build --no-cache
+set AWS_ACCOUNT=XXXXXXXXXXXX
+set AWS_REGION=ap-northeast-1
+cd aws-cdk
+npm run build
+cdk ls -l
+cdk deploy
+cdk destroy
+
+
+
+
+
+
 
 ・Kompose起動準備（Docker for WindowsでKubernetesをONにしていればminikube不要）
 ※ECRログインを実施
@@ -944,23 +1001,7 @@ https://www.slideshare.net/masakinakayama2/dockerkubernetes-136578511
 https://speakerdeck.com/masayuki14/compose-on-kubernetes-wogkededong-kasou?slide=10
 
 
-・ECSデプロイ
-set DOCKER_REGISTRY=XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com
 
-★★★CONTAINER_NAME_PREFIXはDOCKER_REPOSITORY_SUFFIXに変更が必要★★★
-
-set CONTAINER_NAME_PREFIX=ecs-
-cd kotlin-backend 
-gradlew jibDockerBuild
-cd ..
-docker-compose -f docker-compose.ecs.yml build --no-cache
-set AWS_ACCOUNT=XXXXXXXXXXXX
-set AWS_REGION=ap-northeast-1
-cd aws-cdk
-npm run build
-cdk ls -l
-cdk deploy
-cdk destroy
 
 
 

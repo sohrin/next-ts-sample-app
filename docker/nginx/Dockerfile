@@ -16,8 +16,11 @@ ENV DOCKERIZE_VERSION v0.6.1
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-CMD ["dockerize", "-timeout", "300s", \
-     "-wait", "tcp://express:3000", \
-     "-wait", "tcp://kotlin-backend:8080", \
-     "-wait-retry-interval", "5s", \
-     "nginx", "-g", "daemon off;"]
+RUN echo $EXPRESS_HOSTNAME
+RUN echo $BACKEND_HOSTNAME
+# MEMO: How can I use a variable inside a Dockerfile CMD?：https://stackoverrun.com/ja/q/11139358
+CMD dockerize -timeout 300s \
+    -wait tcp://$EXPRESS_HOSTNAME:3000 \
+    -wait tcp://$BACKEND_HOSTNAME:8080 \
+    -wait-retry-interval 5s \
+    nginx -g "daemon off;";

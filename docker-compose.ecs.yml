@@ -1,4 +1,4 @@
-version: '3'
+version: '3.3'
 services:
   nginx:
     build:
@@ -6,35 +6,69 @@ services:
       dockerfile: ./Dockerfile
       args:
         EXPRESS_HOSTNAME: ${EXPRESS_HOSTNAME}
-    image: ecs-next-ts-sample-app_nginx
+        BACKEND_HOSTNAME: ${BACKEND_HOSTNAME}
+    image: ${DOCKER_REGISTRY}/next-ts-sample-app_nginx${DOCKER_REPOSITORY_SUFFIX}
     container_name: next-ts-sample-app_nginx
     ports:
       - "80:80"
+      # TODO: HTTPS対応
+    labels:
+      kompose.service.type: LoadBalancer
+      kompose.image-pull-secret: "ecr-secret"
     env_file: .env.ecs
+    environment:
+      EXPRESS_HOSTNAME: ${EXPRESS_HOSTNAME}
+      BACKEND_HOSTNAME: ${BACKEND_HOSTNAME}
   express:
     build:
       context: ./
       dockerfile: ./docker/express/Dockerfile
-    image: ecs-next-ts-sample-app_express
+    image: ${DOCKER_REGISTRY}/next-ts-sample-app_express${DOCKER_REPOSITORY_SUFFIX}
     container_name: next-ts-sample-app_express
     working_dir: /src
     command: [sh, -c, npm install && npm run build && npm run start]
-    ports:
-      - "3000:3000"
+    expose: 
+      - "3000"
+    labels:
+      kompose.image-pull-secret: "ecr-secret"
     env_file: .env.ecs
-# TODO: jibDockerBuildでビルドする。ECS起動時に環境変数を追加する必要あり
-#  kotlin-backend:
-#    image: next-ts-sample-app_kotlin-backend
-#    container_name: next-ts-sample-kotlin-backend
-#    ports:
-#      - "8080:8080"
-#    environment:
-#      # Spring Bootで必要となる.envファイルのプロパティキーを記載
-#      EXPRESS_HOSTNAME: ${EXPRESS_HOSTNAME}
-#      POSTGRES_HOSTNAME: ${POSTGRES_HOSTNAME}
-#      APP_DBNAME: ${APP_DBNAME}
-#      APP_USERNAME: ${APP_USERNAME}
-#      APP_PASSWORD: ${APP_PASSWORD}
-#      BACKEND_HOSTNAME: ${BACKEND_HOSTNAME}
-#      BACKEND_HOSTNAME_AND_PORT: ${BACKEND_HOSTNAME_AND_PORT}
-#      FRONTEND_HOSTNAME_AND_PORT: ${FRONTEND_HOSTNAME_AND_PORT}
+  # MEMO: Amazon RDS/Auroraを利用する場合はコメントアウトし.envの接続先を変更
+  postgres:
+    build: ./docker/postgres/
+    image: ${DOCKER_REGISTRY}/next-ts-sample-app_postgres${DOCKER_REPOSITORY_SUFFIX}
+    container_name: next-ts-sample-app_postgres
+    expose: 
+      - "5432"
+    environment:
+      # TODO: envファイルに外出ししたほうがいいかも
+      POSTGRES_PASSWORD: postgres
+    labels:
+      kompose.image-pull-secret: "ecr-secret"
+    env_file: .env.ecs
+  kotlin-backend:
+    build:
+      context: ./docker/kotlin-backend/
+      dockerfile: ./Dockerfile
+      args:
+        DOCKER_REGISTRY: ${DOCKER_REGISTRY}
+        DOCKER_REPOSITORY_SUFFIX: ${DOCKER_REPOSITORY_SUFFIX}
+        POSTGRES_HOSTNAME: ${POSTGRES_HOSTNAME}
+    image: ${DOCKER_REGISTRY}/next-ts-sample-app_kotlin-backend${DOCKER_REPOSITORY_SUFFIX}
+    container_name: next-ts-sample-kotlin-backend
+    expose: 
+      - "8080"
+    environment:
+      # Spring Bootで必要となる.envファイルのプロパティキーを記載
+      AWS_REGION: ${AWS_REGION}
+      USER_POOL_ID: ${USER_POOL_ID}
+      EXPRESS_HOSTNAME: ${EXPRESS_HOSTNAME}
+      POSTGRES_HOSTNAME: ${POSTGRES_HOSTNAME}
+      APP_DBNAME: ${APP_DBNAME}
+      APP_USERNAME: ${APP_USERNAME}
+      APP_PASSWORD: ${APP_PASSWORD}
+      BACKEND_HOSTNAME: ${BACKEND_HOSTNAME}
+      BACKEND_HOSTNAME_AND_PORT: ${BACKEND_HOSTNAME_AND_PORT}
+      FRONTEND_HOSTNAME_AND_PORT: ${FRONTEND_HOSTNAME_AND_PORT}
+    labels:
+      kompose.image-pull-secret: "ecr-secret"
+    env_file: .env.ecs
