@@ -25,7 +25,7 @@
     "react-dom": "^16.13.0",
     "reflect-metadata": "^0.1.13",
     "rust-wasm-pack": "file:rust-wasm-pack/pkg",
-    "typeorm": "^0.2.24"
+    "typeorm": "^0.2.25"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.8.3",
